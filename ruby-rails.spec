@@ -21,6 +21,7 @@ Requires:	ruby-ActiveSupport >= 1.0.1
 Requires:	ruby-ActionWebService >= 0.6.0
 Requires:	ruby-dev-utils >= 1.0.1
 Requires:	ruby-extensions >= 0.6.0
+Obsoletes:	railties
 Obsoletes:	ruby-Rails
 #BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -31,6 +32,12 @@ together.
 
 Ruby on Rails is a rapid development web application platform written in 
 Ruby.
+
+%description -l pl
+rails to skrypty wi±¿±ce biblioteki tworz±ce razem Ruby on Rails.
+
+Ruby on Rails to platforma WWW do szybkiego tworzenia aplikacji
+napisana w jêzyku Ruby.
 
 %prep
 %setup -q -n %{name}
@@ -46,7 +53,7 @@ rm environments/shared_for_gem.rb
 cp -a configs fresh_rakefile dispatches  environments  helpers \
 	$RPM_BUILD_ROOT%{_datadir}/%{name}
 cp bin/* $RPM_BUILD_ROOT%{_bindir}
-cp -a lib/* $RPM_BUILD_ROOT%{ruby_rubylibdir}/railties/
+cp -a lib/* $RPM_BUILD_ROOT%{ruby_rubylibdir}/railties
 
 %clean
 rm -rf $RPM_BUILD_ROOT
