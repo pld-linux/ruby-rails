@@ -1,6 +1,6 @@
 diff -ur o-rails/vendor/rails/railties/bin/breakpointer rails/vendor/rails/railties/bin/breakpointer
 --- o-rails/vendor/rails/railties/bin/breakpointer	2005-03-27 08:01:37.000000000 -0700
-+++ rails/vendor/rails/railties/bin/breakpointer	2005-04-03 14:00:57.022096171 -0600
++++ rails/vendor/rails/railties/bin/breakpointer	2005-04-03 15:02:47.000000000 -0600
 @@ -1,3 +1,2 @@
 -#!/usr/local/bin/ruby
 -$LOAD_PATH << File.dirname(__FILE__) + '/../vendor/railties/lib'
@@ -9,7 +9,7 @@ diff -ur o-rails/vendor/rails/railties/bin/breakpointer rails/vendor/rails/railt
 +require 'railties/breakpoint_client'
 diff -ur o-rails/vendor/rails/railties/bin/console rails/vendor/rails/railties/bin/console
 --- o-rails/vendor/rails/railties/bin/console	2005-03-27 08:01:37.000000000 -0700
-+++ rails/vendor/rails/railties/bin/console	2005-04-03 14:00:57.023096047 -0600
++++ rails/vendor/rails/railties/bin/console	2005-04-03 15:02:47.000000000 -0600
 @@ -1,4 +1,4 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -18,7 +18,7 @@ diff -ur o-rails/vendor/rails/railties/bin/console rails/vendor/rails/railties/b
  require 'optparse'
 diff -ur o-rails/vendor/rails/railties/bin/destroy rails/vendor/rails/railties/bin/destroy
 --- o-rails/vendor/rails/railties/bin/destroy	2005-03-27 08:01:37.000000000 -0700
-+++ rails/vendor/rails/railties/bin/destroy	2005-04-03 14:00:57.024095923 -0600
++++ rails/vendor/rails/railties/bin/destroy	2005-04-03 15:02:47.000000000 -0600
 @@ -1,7 +1,7 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -32,7 +32,7 @@ diff -ur o-rails/vendor/rails/railties/bin/destroy rails/vendor/rails/railties/b
  Rails::Generator::Scripts::Destroy.new.run(ARGV)
 diff -ur o-rails/vendor/rails/railties/bin/generate rails/vendor/rails/railties/bin/generate
 --- o-rails/vendor/rails/railties/bin/generate	2005-03-27 08:01:37.000000000 -0700
-+++ rails/vendor/rails/railties/bin/generate	2005-04-03 14:00:57.025095799 -0600
++++ rails/vendor/rails/railties/bin/generate	2005-04-03 15:02:47.000000000 -0600
 @@ -1,7 +1,7 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -46,7 +46,7 @@ diff -ur o-rails/vendor/rails/railties/bin/generate rails/vendor/rails/railties/
  Rails::Generator::Scripts::Generate.new.run(ARGV)
 diff -ur o-rails/vendor/rails/railties/bin/rails rails/vendor/rails/railties/bin/rails
 --- o-rails/vendor/rails/railties/bin/rails	2005-03-27 08:01:37.000000000 -0700
-+++ rails/vendor/rails/railties/bin/rails	2005-04-03 14:00:57.026095676 -0600
++++ rails/vendor/rails/railties/bin/rails	2005-04-03 15:02:47.000000000 -0600
 @@ -1,6 +1,8 @@
 +#!/usr/bin/ruby
 +
@@ -62,7 +62,7 @@ diff -ur o-rails/vendor/rails/railties/bin/rails rails/vendor/rails/railties/bin
 +Rails::Generator::Scripts::Generate.new.run(ARGV, :generator => 'app')
 diff -ur o-rails/vendor/rails/railties/bin/server rails/vendor/rails/railties/bin/server
 --- o-rails/vendor/rails/railties/bin/server	2005-03-27 08:01:37.000000000 -0700
-+++ rails/vendor/rails/railties/bin/server	2005-04-03 14:00:57.027095552 -0600
++++ rails/vendor/rails/railties/bin/server	2005-04-03 15:02:47.000000000 -0600
 @@ -1,4 +1,4 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -80,7 +80,7 @@ diff -ur o-rails/vendor/rails/railties/bin/server rails/vendor/rails/railties/bi
  
 diff -ur o-rails/vendor/rails/railties/bin/update rails/vendor/rails/railties/bin/update
 --- o-rails/vendor/rails/railties/bin/update	2005-03-27 08:01:37.000000000 -0700
-+++ rails/vendor/rails/railties/bin/update	2005-04-03 14:00:57.028095428 -0600
++++ rails/vendor/rails/railties/bin/update	2005-04-03 15:02:47.000000000 -0600
 @@ -1,5 +1,5 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -92,7 +92,7 @@ diff -ur o-rails/vendor/rails/railties/bin/update rails/vendor/rails/railties/bi
  Rails::Generator::Scripts::Update.new.run(ARGV)
 diff -ur o-rails/vendor/rails/railties/dispatches/dispatch.fcgi rails/vendor/rails/railties/dispatches/dispatch.fcgi
 --- o-rails/vendor/rails/railties/dispatches/dispatch.fcgi	2005-03-27 08:01:37.000000000 -0700
-+++ rails/vendor/rails/railties/dispatches/dispatch.fcgi	2005-04-03 14:04:28.804886433 -0600
++++ rails/vendor/rails/railties/dispatches/dispatch.fcgi	2005-04-03 15:02:47.000000000 -0600
 @@ -1,4 +1,4 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -115,10 +115,9 @@ diff -ur o-rails/vendor/rails/railties/dispatches/dispatch.fcgi rails/vendor/rai
 -end
 \ No newline at end of file
 +end
-Only in rails/vendor/rails/railties/dispatches: dispatch.fcgi.orig
 diff -ur o-rails/vendor/rails/railties/dispatches/dispatch.rb rails/vendor/rails/railties/dispatches/dispatch.rb
 --- o-rails/vendor/rails/railties/dispatches/dispatch.rb	2005-03-27 08:01:37.000000000 -0700
-+++ rails/vendor/rails/railties/dispatches/dispatch.rb	2005-04-03 14:00:57.034094686 -0600
++++ rails/vendor/rails/railties/dispatches/dispatch.rb	2005-04-03 15:02:47.000000000 -0600
 @@ -1,10 +1,8 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -134,3 +133,312 @@ diff -ur o-rails/vendor/rails/railties/dispatches/dispatch.rb rails/vendor/rails
 -Dispatcher.dispatch
 \ No newline at end of file
 +Dispatcher.dispatch
+diff -ur o-rails/vendor/rails/railties/environments/environment.rb rails/vendor/rails/railties/environments/environment.rb
+--- o-rails/vendor/rails/railties/environments/environment.rb	2005-03-27 08:01:37.000000000 -0700
++++ rails/vendor/rails/railties/environments/environment.rb	2005-04-03 15:05:46.501989359 -0600
+@@ -33,8 +33,6 @@
+ ADDITIONAL_LOAD_PATHS.reverse.each { |dir| $:.unshift(dir) if File.directory?(dir) }
+ 
+ # Require Rails libraries.
+-require 'rubygems' unless File.directory?("#{RAILS_ROOT}/vendor/rails")
+-
+ require 'active_support'
+ require 'active_record'
+ require 'action_controller'
+diff -ur o-rails/vendor/rails/railties/lib/rails_generator/generators/applications/app/app_generator.rb rails/vendor/rails/railties/lib/rails_generator/generators/applications/app/app_generator.rb
+--- o-rails/vendor/rails/railties/lib/rails_generator/generators/applications/app/app_generator.rb	2005-03-27 08:01:37.000000000 -0700
++++ rails/vendor/rails/railties/lib/rails_generator/generators/applications/app/app_generator.rb	2005-04-03 15:05:19.000000000 -0600
+@@ -4,7 +4,7 @@
+   DEFAULT_SHEBANG = File.join(Config::CONFIG['bindir'],
+                               Config::CONFIG['ruby_install_name'])
+ 
+-  default_options   :gem => true, :shebang => DEFAULT_SHEBANG
++  default_options   :gem => false, :shebang => DEFAULT_SHEBANG
+   mandatory_options :source  => "#{File.dirname(__FILE__)}/../../../../.."
+ 
+   def initialize(runtime_args, runtime_options = {})
+@@ -15,6 +15,7 @@
+ 
+   def manifest
+     script_options = { :chmod => 0755, :shebang => options[:shebang] }
++		@source_root = '/usr/share/rails'
+ 
+     record do |m|
+       # Root directory and all subdirectories.
+@@ -46,11 +47,7 @@
+       %w(console console_sandbox.rb destroy generate server runner).each do |file|
+         m.file "bin/#{file}", "script/#{file}", script_options
+       end
+-      if options[:gem]
+-        m.file "bin/breakpointer_for_gem", "script/breakpointer", script_options
+-      else
+-        m.file "bin/breakpointer", "script/breakpointer", script_options
+-      end
++      m.file "bin/breakpointer", "script/breakpointer", script_options
+ 
+       # Dispatches
+       m.file "dispatches/dispatch.rb", "public/dispatch.rb", script_options
+@@ -87,9 +84,6 @@
+       opt.separator 'Options:'
+       opt.on("--ruby [#{DEFAULT_SHEBANG}]",
+              "Path to the Ruby binary of your choice.") { |options[:shebang]| }
+-      opt.on("--without-gems",
+-             "Don't use the Rails gems for your app.",
+-             "WARNING: see note below.") { |options[:gem]| }
+     end
+ 
+ 
+diff -ur o-rails/vendor/rails/railties/lib/rails_generator/generators/applications/app/USAGE rails/vendor/rails/railties/lib/rails_generator/generators/applications/app/USAGE
+--- o-rails/vendor/rails/railties/lib/rails_generator/generators/applications/app/USAGE	2005-03-27 08:01:37.000000000 -0700
++++ rails/vendor/rails/railties/lib/rails_generator/generators/applications/app/USAGE	2005-04-03 15:05:33.097609886 -0600
+@@ -7,10 +7,3 @@
+ 
+     This generates a skeletal Rails installation in ~/Code/Ruby/weblog.
+     See the README in the newly created application to get going.
+-
+-WARNING:
+-    Only specify --without-gems if you did not use gems to install Rails.
+-    Your application will expect to find activerecord, actionpack, and
+-    actionmailer directories in the vendor directory.  A popular way to track
+-    the bleeding edge of Rails development is to checkout from source control
+-    directly to the vendor directory.  See http://dev.rubyonrails.com
+diff -ur o-rails/vendor/rails/railties/lib/rails_generator/lookup.rb rails/vendor/rails/railties/lib/rails_generator/lookup.rb
+--- o-rails/vendor/rails/railties/lib/rails_generator/lookup.rb	2005-03-27 08:01:37.000000000 -0700
++++ rails/vendor/rails/railties/lib/rails_generator/lookup.rb	2005-04-03 15:04:49.000000000 -0600
+@@ -94,8 +94,7 @@
+         #     generating in the context of a Rails application, so search
+         #     RAILS_ROOT/script/generators.
+         # 2.  User home directory.  Search ~/.rails/generators.
+-        # 3.  RubyGems.  Search for gems named *_generator.
+-        # 4.  Builtins.  Model, controller, mailer, scaffold.
++        # 3.  Builtins.  Model, controller, mailer, scaffold.
+         def use_component_sources!
+           reset_sources
+           sources << PathSource.new(:app, "#{::RAILS_ROOT}/script/generators") if defined? ::RAILS_ROOT
+@@ -175,26 +174,5 @@
+         end
+       end
+     end
+-
+-
+-    # GemSource hits the mines to quarry for generators.  The latest versions
+-    # of gems named *_generator are selected.
+-    class GemSource < Source
+-      def initialize
+-        super :RubyGems
+-      end
+-
+-      # Yield latest versions of generator gems.
+-      def each
+-        Gem::cache.search(/_generator$/).inject({}) { |latest, gem|
+-          hem = latest[gem.name]
+-          latest[gem.name] = gem if hem.nil? or gem.version > hem.version
+-          latest
+-        }.values.each { |gem|
+-          yield Spec.new(gem.name.sub(/_generator$/, ''), gem.full_gem_path, label)
+-        }
+-      end
+-    end
+-
+   end
+ end
+diff -ur o-rails/vendor/rails/railties/lib/rails_generator/scripts.rb rails/vendor/rails/railties/lib/rails_generator/scripts.rb
+--- o-rails/vendor/rails/railties/lib/rails_generator/scripts.rb	2005-03-27 08:01:37.000000000 -0700
++++ rails/vendor/rails/railties/lib/rails_generator/scripts.rb	2005-04-03 15:04:01.000000000 -0600
+@@ -67,12 +67,6 @@
+             usage << <<end_blurb
+   3. Run generate with no arguments for usage information
+        #{$0} login
+-
+-Generator gems are also available:
+-  1. gem list generator -s http://gems.rubyonrails.org
+-  2. gem install login_generator -s http://gems.rubyonrails.org
+-  3. #{$0} login
+-
+ end_blurb
+             return usage
+           end
+diff -ur o-rails/vendor/rails/railties/lib/rails_generator.rb rails/vendor/rails/railties/lib/rails_generator.rb
+--- o-rails/vendor/rails/railties/lib/rails_generator.rb	2005-03-27 08:01:37.000000000 -0700
++++ rails/vendor/rails/railties/lib/rails_generator.rb	2005-04-03 15:04:23.000000000 -0600
+@@ -24,12 +24,7 @@
+ $:.unshift(File.dirname(__FILE__))
+ $:.unshift(File.dirname(__FILE__) + "/../../activesupport/lib")
+ 
+-begin
+-  require 'active_support'  
+-rescue LoadError
+-  require 'rubygems'
+-  require_gem 'activesupport'
+-end
++require 'active_support'  
+ 
+ require 'rails_generator/base'
+ require 'rails_generator/lookup'
+diff -ur o-rails/vendor/rails/railties/Rakefile rails/vendor/rails/railties/Rakefile
+--- o-rails/vendor/rails/railties/Rakefile	2005-03-27 08:01:37.000000000 -0700
++++ rails/vendor/rails/railties/Rakefile	2005-04-03 15:03:38.000000000 -0600
+@@ -1,7 +1,6 @@
+ require 'rake'
+ require 'rake/testtask'
+ require 'rake/rdoctask'
+-require 'rake/gempackagetask'
+ require 'rake/contrib/rubyforgepublisher'
+ 
+ require 'date'
+@@ -37,9 +36,6 @@
+ desc "Generates a fresh Rails package with documentation"
+ task :fresh_rails => [ :clean, :make_dir_structure, :initialize_file_stubs, :copy_vendor_libraries, :copy_ties_content, :generate_documentation ]
+ 
+-desc "Generates a fresh Rails package using GEMs with documentation"
+-task :fresh_gem_rails => [ :clean, :make_dir_structure, :initialize_file_stubs, :copy_ties_content, :copy_gem_environment ]
+-
+ desc "Generates a fresh Rails package without documentation (faster)"
+ task :fresh_rails_without_docs => [ :clean, :make_dir_structure, :initialize_file_stubs, :copy_vendor_libraries, :copy_ties_content ]
+ 
+@@ -208,14 +204,6 @@
+ 
+ # Generate GEM ----------------------------------------------------------------------------
+ 
+-task :copy_gem_environment do
+-  cp "environments/environment.rb", "#{PKG_DESTINATION}/config/environment.rb"
+-  dest_file = File.join(PKG_DESTINATION, 'script', 'breakpointer')
+-  copy_with_rewritten_ruby_path(File.join('bin', 'breakpointer_for_gem'), dest_file)
+-  chmod 0755, dest_file
+-end
+-
+-
+ PKG_FILES = FileList[
+   '[a-zA-Z]*',
+   'bin/**/*', 
+@@ -260,129 +248,3 @@
+   s.homepage = "http://www.rubyonrails.org"
+   s.rubyforge_project = "rails"
+ end
+-
+-Rake::GemPackageTask.new(spec) do |pkg|
+-end
+-
+-
+-# Publishing -------------------------------------------------------
+-desc "Publish the API documentation"
+-task :pgem => [:gem] do 
+-  Rake::SshFilePublisher.new("davidhh@comox.textdrive.com", "public_html/gems/gems", "pkg", "#{PKG_FILE_NAME}.gem").upload
+-  `ssh davidhh@comox.textdrive.com './gemupdate.sh'`
+-end
+-
+-desc "Publish the release files to RubyForge."
+-task :release => [:package] do
+-  files = ["gem"].map { |ext| "pkg/#{PKG_FILE_NAME}.#{ext}" }
+-
+-  if RUBY_FORGE_PROJECT then
+-    require 'net/http'
+-    require 'open-uri'
+-
+-    project_uri = "http://rubyforge.org/projects/#{RUBY_FORGE_PROJECT}/"
+-    project_data = open(project_uri) { |data| data.read }
+-    group_id = project_data[/[?&]group_id=(\d+)/, 1]
+-    raise "Couldn't get group id" unless group_id
+-
+-    # This echos password to shell which is a bit sucky
+-    if ENV["RUBY_FORGE_PASSWORD"]
+-      password = ENV["RUBY_FORGE_PASSWORD"]
+-    else
+-      print "#{RUBY_FORGE_USER}@rubyforge.org's password: "
+-      password = STDIN.gets.chomp
+-    end
+-
+-    login_response = Net::HTTP.start("rubyforge.org", 80) do |http|
+-      data = [
+-        "login=1",
+-        "form_loginname=#{RUBY_FORGE_USER}",
+-        "form_pw=#{password}"
+-      ].join("&")
+-      http.post("/account/login.php", data)
+-    end
+-
+-    cookie = login_response["set-cookie"]
+-    raise "Login failed" unless cookie
+-    headers = { "Cookie" => cookie }
+-
+-    release_uri = "http://rubyforge.org/frs/admin/?group_id=#{group_id}"
+-    release_data = open(release_uri, headers) { |data| data.read }
+-    package_id = release_data[/[?&]package_id=(\d+)/, 1]
+-    raise "Couldn't get package id" unless package_id
+-
+-    first_file = true
+-    release_id = ""
+-
+-    files.each do |filename|
+-      basename  = File.basename(filename)
+-      file_ext  = File.extname(filename)
+-      file_data = File.open(filename, "rb") { |file| file.read }
+-
+-      puts "Releasing #{basename}..."
+-
+-      release_response = Net::HTTP.start("rubyforge.org", 80) do |http|
+-        release_date = Time.now.strftime("%Y-%m-%d %H:%M")
+-        type_map = {
+-          ".zip"    => "3000",
+-          ".tgz"    => "3110",
+-          ".gz"     => "3110",
+-          ".gem"    => "1400"
+-        }; type_map.default = "9999"
+-        type = type_map[file_ext]
+-        boundary = "rubyqMY6QN9bp6e4kS21H4y0zxcvoor"
+-
+-        query_hash = if first_file then
+-          {
+-            "group_id" => group_id,
+-            "package_id" => package_id,
+-            "release_name" => RELEASE_NAME,
+-            "release_date" => release_date,
+-            "type_id" => type,
+-            "processor_id" => "8000", # Any
+-            "release_notes" => "",
+-            "release_changes" => "",
+-            "preformatted" => "1",
+-            "submit" => "1"
+-          }
+-        else
+-          {
+-            "group_id" => group_id,
+-            "release_id" => release_id,
+-            "package_id" => package_id,
+-            "step2" => "1",
+-            "type_id" => type,
+-            "processor_id" => "8000", # Any
+-            "submit" => "Add This File"
+-          }
+-        end
+-
+-        query = "?" + query_hash.map do |(name, value)|
+-          [name, URI.encode(value)].join("=")
+-        end.join("&")
+-
+-        data = [
+-          "--" + boundary,
+-          "Content-Disposition: form-data; name=\"userfile\"; filename=\"#{basename}\"",
+-          "Content-Type: application/octet-stream",
+-          "Content-Transfer-Encoding: binary",
+-          "", file_data, ""
+-          ].join("\x0D\x0A")
+-
+-        release_headers = headers.merge(
+-          "Content-Type" => "multipart/form-data; boundary=#{boundary}"
+-        )
+-
+-        target = first_file ? "/frs/admin/qrs.php" : "/frs/admin/editrelease.php"
+-        http.post(target + query, data, release_headers)
+-      end
+-
+-      if first_file then
+-        release_id = release_response.body[/release_id=(\d+)/, 1]
+-        raise("Couldn't get release id") unless release_id
+-      end
+-
+-      first_file = false
+-    end
+-  end
+-end
+\ No newline at end of file
