@@ -46,12 +46,14 @@ napisana w jêzyku Ruby.
 %install
 rm -rf $RPM_BUILD_ROOT
 cd vendor/rails/railties
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{name},%{ruby_rubylibdir}/railties}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{name}/bin,%{ruby_rubylibdir}/railties}
 
 rm bin/breakpointer_for_gem
-cp -a configs fresh_rakefile dispatches  environments  helpers \
+cp -a configs fresh_rakefile dispatches  environments  helpers html\
 	$RPM_BUILD_ROOT%{_datadir}/%{name}
-cp bin/* $RPM_BUILD_ROOT%{_bindir}
+cp bin/{breakpointer,console_sandbox.rb,runner,update,console,destroy,server} \
+   $RPM_BUILD_ROOT%{_datadir}/%{name}/bin
+cp bin/{rails,generate} $RPM_BUILD_ROOT%{_bindir}
 cp -a lib/* $RPM_BUILD_ROOT%{ruby_rubylibdir}/railties
 
 %clean
