@@ -3,22 +3,22 @@
 Summary:	Ruby on Rails setup scripts
 Summary(pl):	Skrypty instalacyjne Ruby on Rails
 Name:		rails
-Version:	0.10.1
+Version:	0.11.1
 Release:	1
 License:	GPL
 Group:		Development/Languages
-Source0:	http://rubyforge.org/frs/download.php/3339/%{name}-%{version}.tgz
-# Source0-md5:	0af9dff26117ffeac053332e0efbd52c
+Source0:	http://rubyforge.org/frs/download.php/3693/%{name}-%{version}.tgz
+# Source0-md5:	c9d80b1a98db0fe7a7775fd7fab84420
 Patch0:		%{name}-sanity.patch
 URL:		http://www.rubyonrails.com/
 BuildRequires:	ruby
 BuildRequires:	ruby-devel
 Requires:	rake >= 0.4.13
-Requires:	ruby-ActionMailer >= 0.7.1
-Requires:	ruby-ActionPack >= 1.5.1
-Requires:	ruby-ActiveRecord >= 1.8.0
-Requires:	ruby-ActiveSupport >= 1.0.1
-Requires:	ruby-ActionWebService >= 0.6.0
+Requires:	ruby-ActionMailer >= 0.8.1
+Requires:	ruby-ActionPack >= 1.7.0
+Requires:	ruby-ActiveRecord >= 1.9.1
+Requires:	ruby-ActiveSupport >= 1.0.3
+Requires:	ruby-ActionWebService >= 0.6.2
 Requires:	ruby-dev-utils >= 1.0.1
 Requires:	ruby-extensions >= 0.6.0
 Obsoletes:	railties
@@ -45,11 +45,10 @@ napisana w jêzyku Ruby.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd vendor/railties
+cd vendor/rails/railties
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{name},%{ruby_rubylibdir}/railties}
 
 rm bin/breakpointer_for_gem
-rm environments/shared_for_gem.rb
 cp -a configs fresh_rakefile dispatches  environments  helpers \
 	$RPM_BUILD_ROOT%{_datadir}/%{name}
 cp bin/* $RPM_BUILD_ROOT%{_bindir}
