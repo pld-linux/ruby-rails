@@ -1,24 +1,24 @@
-diff -ur o-railties-0.10.1/bin/breakpointer railties-0.10.1/bin/breakpointer
---- o-railties-0.10.1/bin/breakpointer	2005-03-19 22:20:07.000000000 -0700
-+++ railties-0.10.1/bin/breakpointer	2005-03-19 22:27:29.000000000 -0700
+diff -ur o-rails/vendor/railties/bin/breakpointer rails/vendor/railties/bin/breakpointer
+--- o-rails/vendor/railties/bin/breakpointer	2005-03-06 18:56:07.000000000 -0700
++++ rails/vendor/railties/bin/breakpointer	2005-03-20 01:14:41.201792489 -0700
 @@ -1,3 +1,2 @@
 -#!/usr/local/bin/ruby
 -$LOAD_PATH << File.dirname(__FILE__) + '/../vendor/railties/lib'
 -require 'breakpoint_client'
 +#!/usr/bin/ruby
 +require 'railties/breakpoint_client'
-diff -ur o-railties-0.10.1/bin/console railties-0.10.1/bin/console
---- o-railties-0.10.1/bin/console	2005-03-19 22:20:07.000000000 -0700
-+++ railties-0.10.1/bin/console	2005-03-19 23:20:18.000000000 -0700
+diff -ur o-rails/vendor/railties/bin/console rails/vendor/railties/bin/console
+--- o-rails/vendor/railties/bin/console	2005-03-06 18:56:07.000000000 -0700
++++ rails/vendor/railties/bin/console	2005-03-20 01:14:41.202792367 -0700
 @@ -1,4 +1,4 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
  irb = RUBY_PLATFORM =~ /mswin32/ ? 'irb.bat' : 'irb'
  
  require 'optparse'
-diff -ur o-railties-0.10.1/bin/destroy railties-0.10.1/bin/destroy
---- o-railties-0.10.1/bin/destroy	2005-03-19 22:20:07.000000000 -0700
-+++ railties-0.10.1/bin/destroy	2005-03-19 23:33:47.000000000 -0700
+diff -ur o-rails/vendor/railties/bin/destroy rails/vendor/railties/bin/destroy
+--- o-rails/vendor/railties/bin/destroy	2005-03-06 18:56:07.000000000 -0700
++++ rails/vendor/railties/bin/destroy	2005-03-20 01:14:41.203792244 -0700
 @@ -1,7 +1,7 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -30,9 +30,9 @@ diff -ur o-railties-0.10.1/bin/destroy railties-0.10.1/bin/destroy
  
  ARGV.shift if ['--help', '-h'].include?(ARGV[0])
  Rails::Generator::Scripts::Destroy.new.run(ARGV)
-diff -ur o-railties-0.10.1/bin/generate railties-0.10.1/bin/generate
---- o-railties-0.10.1/bin/generate	2005-03-19 22:20:07.000000000 -0700
-+++ railties-0.10.1/bin/generate	2005-03-19 23:22:03.963568650 -0700
+diff -ur o-rails/vendor/railties/bin/generate rails/vendor/railties/bin/generate
+--- o-rails/vendor/railties/bin/generate	2005-03-06 18:56:07.000000000 -0700
++++ rails/vendor/railties/bin/generate	2005-03-20 01:14:41.204792122 -0700
 @@ -1,7 +1,7 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -44,9 +44,9 @@ diff -ur o-railties-0.10.1/bin/generate railties-0.10.1/bin/generate
  
  ARGV.shift if ['--help', '-h'].include?(ARGV[0])
  Rails::Generator::Scripts::Generate.new.run(ARGV)
-diff -ur o-railties-0.10.1/bin/rails railties-0.10.1/bin/rails
---- o-railties-0.10.1/bin/rails	2005-03-19 22:20:07.000000000 -0700
-+++ railties-0.10.1/bin/rails	2005-03-19 23:34:30.000000000 -0700
+diff -ur o-rails/vendor/railties/bin/rails rails/vendor/railties/bin/rails
+--- o-rails/vendor/railties/bin/rails	2005-03-06 18:56:07.000000000 -0700
++++ rails/vendor/railties/bin/rails	2005-03-20 01:14:41.205792000 -0700
 @@ -1,6 +1,8 @@
 +#!/usr/bin/ruby
 +
@@ -60,9 +60,9 @@ diff -ur o-railties-0.10.1/bin/rails railties-0.10.1/bin/rails
 -Rails::Generator::Scripts::Generate.new.run(ARGV, :generator => 'app')
 \ No newline at end of file
 +Rails::Generator::Scripts::Generate.new.run(ARGV, :generator => 'app')
-diff -ur o-railties-0.10.1/bin/server railties-0.10.1/bin/server
---- o-railties-0.10.1/bin/server	2005-03-19 22:20:07.000000000 -0700
-+++ railties-0.10.1/bin/server	2005-03-19 23:21:27.369041446 -0700
+diff -ur o-rails/vendor/railties/bin/server rails/vendor/railties/bin/server
+--- o-rails/vendor/railties/bin/server	2005-03-06 18:56:07.000000000 -0700
++++ rails/vendor/railties/bin/server	2005-03-20 01:14:41.206791878 -0700
 @@ -1,4 +1,4 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -78,9 +78,9 @@ diff -ur o-railties-0.10.1/bin/server railties-0.10.1/bin/server
  
  OPTIONS['working_directory'] = File.expand_path(RAILS_ROOT)
  
-diff -ur o-railties-0.10.1/bin/update railties-0.10.1/bin/update
---- o-railties-0.10.1/bin/update	2005-03-19 22:20:07.000000000 -0700
-+++ railties-0.10.1/bin/update	2005-03-19 23:35:31.000000000 -0700
+diff -ur o-rails/vendor/railties/bin/update rails/vendor/railties/bin/update
+--- o-rails/vendor/railties/bin/update	2005-03-06 18:56:07.000000000 -0700
++++ rails/vendor/railties/bin/update	2005-03-20 01:14:41.207791756 -0700
 @@ -1,5 +1,5 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -90,9 +90,9 @@ diff -ur o-railties-0.10.1/bin/update railties-0.10.1/bin/update
 +require 'railties/rails_generator'
 +require 'railties/rails_generator/scripts/update'
  Rails::Generator::Scripts::Update.new.run(ARGV)
-diff -ur o-railties-0.10.1/dispatches/dispatch.fcgi railties-0.10.1/dispatches/dispatch.fcgi
---- o-railties-0.10.1/dispatches/dispatch.fcgi	2005-03-19 22:20:06.000000000 -0700
-+++ railties-0.10.1/dispatches/dispatch.fcgi	2005-03-19 23:18:56.000000000 -0700
+diff -ur o-rails/vendor/railties/dispatches/dispatch.fcgi rails/vendor/railties/dispatches/dispatch.fcgi
+--- o-rails/vendor/railties/dispatches/dispatch.fcgi	2005-03-06 18:56:07.000000000 -0700
++++ rails/vendor/railties/dispatches/dispatch.fcgi	2005-03-20 01:14:41.208791634 -0700
 @@ -1,7 +1,7 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -110,9 +110,9 @@ diff -ur o-railties-0.10.1/dispatches/dispatch.fcgi railties-0.10.1/dispatches/d
 -end
 \ No newline at end of file
 +end
-diff -ur o-railties-0.10.1/dispatches/dispatch.rb railties-0.10.1/dispatches/dispatch.rb
---- o-railties-0.10.1/dispatches/dispatch.rb	2005-03-19 22:20:06.000000000 -0700
-+++ railties-0.10.1/dispatches/dispatch.rb	2005-03-19 22:27:29.000000000 -0700
+diff -ur o-rails/vendor/railties/dispatches/dispatch.rb rails/vendor/railties/dispatches/dispatch.rb
+--- o-rails/vendor/railties/dispatches/dispatch.rb	2005-03-06 18:56:07.000000000 -0700
++++ rails/vendor/railties/dispatches/dispatch.rb	2005-03-20 01:14:41.209791512 -0700
 @@ -1,10 +1,8 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -128,9 +128,9 @@ diff -ur o-railties-0.10.1/dispatches/dispatch.rb railties-0.10.1/dispatches/dis
 -Dispatcher.dispatch
 \ No newline at end of file
 +Dispatcher.dispatch
-diff -ur o-railties-0.10.1/environments/shared.rb railties-0.10.1/environments/shared.rb
---- o-railties-0.10.1/environments/shared.rb	2005-03-19 22:20:07.000000000 -0700
-+++ railties-0.10.1/environments/shared.rb	2005-03-19 23:19:27.000000000 -0700
+diff -ur o-rails/vendor/railties/environments/shared.rb rails/vendor/railties/environments/shared.rb
+--- o-rails/vendor/railties/environments/shared.rb	2005-03-06 18:56:07.000000000 -0700
++++ rails/vendor/railties/environments/shared.rb	2005-03-20 01:14:41.210791389 -0700
 @@ -19,14 +19,6 @@
    config
    components
@@ -146,9 +146,9 @@ diff -ur o-railties-0.10.1/environments/shared.rb railties-0.10.1/environments/s
  ).map { |dir| "#{RAILS_ROOT}/#{dir}" }
  
  # Prepend to $LOAD_PATH
-diff -ur o-railties-0.10.1/fresh_rakefile railties-0.10.1/fresh_rakefile
---- o-railties-0.10.1/fresh_rakefile	2005-03-19 22:20:07.000000000 -0700
-+++ railties-0.10.1/fresh_rakefile	2005-03-19 23:22:42.165898446 -0700
+diff -ur o-rails/vendor/railties/fresh_rakefile rails/vendor/railties/fresh_rakefile
+--- o-rails/vendor/railties/fresh_rakefile	2005-03-06 18:56:07.000000000 -0700
++++ rails/vendor/railties/fresh_rakefile	2005-03-20 01:14:41.212791145 -0700
 @@ -75,29 +75,11 @@
    rdoc.options << '--line-numbers --inline-source'
    rdoc.rdoc_files.include('README')
@@ -180,9 +180,9 @@ diff -ur o-railties-0.10.1/fresh_rakefile railties-0.10.1/fresh_rakefile
    CodeStatistics.new(
      ["Helpers", "app/helpers"], 
      ["Controllers", "app/controllers"], 
-diff -ur o-railties-0.10.1/lib/breakpoint.rb railties-0.10.1/lib/breakpoint.rb
---- o-railties-0.10.1/lib/breakpoint.rb	2005-03-19 22:20:06.000000000 -0700
-+++ railties-0.10.1/lib/breakpoint.rb	2005-03-19 22:27:40.000000000 -0700
+diff -ur o-rails/vendor/railties/lib/breakpoint.rb rails/vendor/railties/lib/breakpoint.rb
+--- o-rails/vendor/railties/lib/breakpoint.rb	2005-03-06 18:56:07.000000000 -0700
++++ rails/vendor/railties/lib/breakpoint.rb	2005-03-20 01:14:41.214790901 -0700
 @@ -16,7 +16,7 @@
  # license please contact me.
  
@@ -192,9 +192,9 @@ diff -ur o-railties-0.10.1/lib/breakpoint.rb railties-0.10.1/lib/breakpoint.rb
  require 'drb'
  require 'drb/acl'
  
-diff -ur o-railties-0.10.1/lib/dispatcher.rb railties-0.10.1/lib/dispatcher.rb
---- o-railties-0.10.1/lib/dispatcher.rb	2005-03-19 22:20:06.000000000 -0700
-+++ railties-0.10.1/lib/dispatcher.rb	2005-03-19 22:27:40.000000000 -0700
+diff -ur o-rails/vendor/railties/lib/dispatcher.rb rails/vendor/railties/lib/dispatcher.rb
+--- o-rails/vendor/railties/lib/dispatcher.rb	2005-03-06 18:56:07.000000000 -0700
++++ rails/vendor/railties/lib/dispatcher.rb	2005-03-20 01:14:41.215790779 -0700
 @@ -21,7 +21,7 @@
  # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  #++
@@ -204,9 +204,23 @@ diff -ur o-railties-0.10.1/lib/dispatcher.rb railties-0.10.1/lib/dispatcher.rb
  
  class Dispatcher
    class << self
-diff -ur o-railties-0.10.1/lib/rails_generator.rb railties-0.10.1/lib/rails_generator.rb
---- o-railties-0.10.1/lib/rails_generator.rb	2005-03-19 22:20:06.000000000 -0700
-+++ railties-0.10.1/lib/rails_generator.rb	2005-03-19 23:36:44.975381074 -0700
+diff -ur o-rails/vendor/railties/lib/rails_generator/generators/applications/app/app_generator.rb rails/vendor/railties/lib/rails_generator/generators/applications/app/app_generator.rb
+--- o-rails/vendor/railties/lib/rails_generator/generators/applications/app/app_generator.rb	2005-03-06 18:56:07.000000000 -0700
++++ rails/vendor/railties/lib/rails_generator/generators/applications/app/app_generator.rb	2005-03-20 01:16:19.264812581 -0700
+@@ -4,8 +4,8 @@
+   DEFAULT_SHEBANG = File.join(Config::CONFIG['bindir'],
+                               Config::CONFIG['ruby_install_name'])
+ 
+-  default_options   :gem => true, :shebang => DEFAULT_SHEBANG
+-  mandatory_options :source  => "#{File.dirname(__FILE__)}/../../../../.."
++  default_options   :gem => false, :shebang => DEFAULT_SHEBANG
++  mandatory_options :source  => "/usr/share/rails/"
+ 
+   def initialize(runtime_args, runtime_options = {})
+     super
+diff -ur o-rails/vendor/railties/lib/rails_generator.rb rails/vendor/railties/lib/rails_generator.rb
+--- o-rails/vendor/railties/lib/rails_generator.rb	2005-03-06 18:56:07.000000000 -0700
++++ rails/vendor/railties/lib/rails_generator.rb	2005-03-20 01:14:41.218790412 -0700
 @@ -22,22 +22,16 @@
  #++
  
@@ -235,9 +249,9 @@ diff -ur o-railties-0.10.1/lib/rails_generator.rb railties-0.10.1/lib/rails_gene
 -require 'rails_generator/simple_logger'
 +require 'railties/rails_generator/simple_logger'
  Rails::Generator::Base.logger = Rails::Generator::SimpleLogger.new(STDOUT)
-diff -ur o-railties-0.10.1/Rakefile railties-0.10.1/Rakefile
---- o-railties-0.10.1/Rakefile	2005-03-19 22:20:07.000000000 -0700
-+++ railties-0.10.1/Rakefile	2005-03-19 22:30:52.000000000 -0700
+diff -ur o-rails/vendor/railties/Rakefile rails/vendor/railties/Rakefile
+--- o-rails/vendor/railties/Rakefile	2005-03-06 18:56:07.000000000 -0700
++++ rails/vendor/railties/Rakefile	2005-03-20 01:15:45.066990536 -0700
 @@ -1,8 +1,6 @@
  require 'rake'
  require 'rake/testtask'
@@ -256,7 +270,7 @@ diff -ur o-railties-0.10.1/Rakefile railties-0.10.1/Rakefile
  APP_DIRS    = %w( apis models controllers helpers views views/layouts )
  PUBLIC_DIRS = %w( images javascripts stylesheets )
  TEST_DIRS   = %w( fixtures unit functional mocks mocks/development mocks/test )
-@@ -23,26 +21,23 @@
+@@ -23,26 +21,20 @@
  HTML_FILES   = %w( 404.html 500.html index.html favicon.ico )
  BIN_FILES    = %w( generate destroy breakpointer console server update )
  
@@ -268,10 +282,10 @@ diff -ur o-railties-0.10.1/Rakefile railties-0.10.1/Rakefile
  
  desc "Generates a fresh Rails package with documentation"
 -task :fresh_rails => [ :clean, :make_dir_structure, :initialize_file_stubs, :copy_vendor_libraries, :copy_ties_content, :generate_documentation ]
+-
+-desc "Generates a fresh Rails package using GEMs with documentation"
+-task :fresh_gem_rails => [ :clean, :make_dir_structure, :initialize_file_stubs, :copy_ties_content, :copy_gem_environment ]
 +task :fresh_rails => [ :clean, :make_dir_structure, :initialize_file_stubs, :copy_ties_content, :generate_documentation ]
- 
- desc "Generates a fresh Rails package using GEMs with documentation"
- task :fresh_gem_rails => [ :clean, :make_dir_structure, :initialize_file_stubs, :copy_ties_content, :copy_gem_environment ]
  
  desc "Generates a fresh Rails package without documentation (faster)"
 -task :fresh_rails_without_docs => [ :clean, :make_dir_structure, :initialize_file_stubs, :copy_vendor_libraries, :copy_ties_content ]
@@ -287,7 +301,7 @@ diff -ur o-railties-0.10.1/Rakefile railties-0.10.1/Rakefile
  
  desc "Packages the fresh Rails package with documentation"
  task :package => [ :clean, :fresh_rails ] do
-@@ -85,24 +80,6 @@
+@@ -85,24 +77,6 @@
    end
  end
  
@@ -312,10 +326,74 @@ diff -ur o-railties-0.10.1/Rakefile railties-0.10.1/Rakefile
  # Copy Ties Content -----------------------------------------------------------------------
  
  # :link_apache_config
-@@ -267,4 +244,4 @@
- task :pgem => [:gem] do 
-   Rake::SshFilePublisher.new("davidhh@comox.textdrive.com", "public_html/gems/gems", "pkg", "#{PKG_FILE_NAME}.gem").upload
-   `ssh davidhh@comox.textdrive.com './gemupdate.sh'`
+@@ -202,69 +176,3 @@
+   File.cp "doc/README_FOR_APP", "#{PKG_DESTINATION}/doc/README_FOR_APP"
+   system %{cd #{PKG_DESTINATION}; rake appdoc}
+ end
+-
+-
+-# Generate GEM ----------------------------------------------------------------------------
+-
+-task :copy_gem_environment do
+-  cp "environments/shared_for_gem.rb", "#{PKG_DESTINATION}/config/environment.rb"
+-  dest_file = File.join(PKG_DESTINATION, 'script', 'breakpointer')
+-  copy_with_rewritten_ruby_path(File.join('bin', 'breakpointer_for_gem'), dest_file)
+-  chmod 0755, dest_file
+-end
+-
+-
+-PKG_FILES = FileList[
+-  '[a-zA-Z]*',
+-  'bin/**/*', 
+-  'configs/**/*', 
+-  'doc/**/*', 
+-  'dispatches/**/*', 
+-  'environments/**/*', 
+-  'helpers/**/*', 
+-  'generators/**/*', 
+-  'html/**/*', 
+-  'lib/**/*'
+-]
+-
+-spec = Gem::Specification.new do |s|
+-  s.name = 'rails'
+-  s.version = PKG_VERSION
+-  s.summary = "Web-application framework with template engine, control-flow layer, and ORM."
+-  s.description = <<-EOF
+-    Rails is a framework for building web-application using CGI, FCGI, mod_ruby, or WEBrick
+-    on top of either MySQL, PostgreSQL, or SQLite with eRuby-based templates.
+-  EOF
+-
+-  s.add_dependency('rake', '>= 0.4.15')
+-  s.add_dependency('activesupport',    '= 1.0.1' + PKG_BUILD)
+-  s.add_dependency('activerecord',     '= 1.8.0' + PKG_BUILD)
+-  s.add_dependency('actionpack',       '= 1.5.1' + PKG_BUILD)
+-  s.add_dependency('actionmailer',     '= 0.7.1' + PKG_BUILD)
+-  s.add_dependency('actionwebservice', '= 0.6.0' + PKG_BUILD)
+-
+-  s.rdoc_options << '--exclude' << '.'
+-  s.has_rdoc = false
+-
+-  s.files = PKG_FILES.to_a.delete_if {|f| f.include?('.svn')}
+-  s.require_path = 'lib'
+-
+-  s.bindir = "bin"                               # Use these for applications.
+-  s.executables = ["rails"]
+-  s.default_executable = "rails"
+-
+-  s.author = "David Heinemeier Hansson"
+-  s.email = "david@loudthinking.com"
+-  s.homepage = "http://www.rubyonrails.org"
+-  s.rubyforge_project = "rails"
+-end
+-
+-Rake::GemPackageTask.new(spec) do |pkg|
+-end
+-
+-# Publish beta gem
+-desc "Publish the API documentation"
+-task :pgem => [:gem] do 
+-  Rake::SshFilePublisher.new("davidhh@comox.textdrive.com", "public_html/gems/gems", "pkg", "#{PKG_FILE_NAME}.gem").upload
+-  `ssh davidhh@comox.textdrive.com './gemupdate.sh'`
 -end
 \ No newline at end of file
-+end

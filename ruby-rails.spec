@@ -8,16 +8,17 @@ Release:	1
 License:	GPL
 Group:		Development/Languages
 Source0:	http://rubyforge.org/frs/download.php/3339/%{name}-%{version}.tgz
-# Source0-md5:	e9f953cbb68a8d139db853f8e3ef0ef0
+# Source0-md5:	0af9dff26117ffeac053332e0efbd52c
 Patch0:		%{name}-sanity.patch
 URL:		http://www.rubyonrails.com/
 BuildRequires:	ruby
 BuildRequires:	ruby-devel
 Requires:	rake >= 0.4.13
-Requires:	ruby-ActionMailer >= 0.10.1
-Requires:	ruby-ActionPack >= 0.10.1
-Requires:	ruby-ActiveRecord >= 0.10.1
-Requires:	ruby-ActiveSupport >= 0.10.1
+Requires:	ruby-ActionMailer >= 0.7.1
+Requires:	ruby-ActionPack >= 1.5.1
+Requires:	ruby-ActiveRecord >= 1.8.0
+Requires:	ruby-ActiveSupport >= 1.0.1
+Requires:	ruby-ActionWebService >= 0.6.0
 Requires:	ruby-dev-utils >= 1.0.1
 Requires:	ruby-extensions >= 0.6.0
 Obsoletes:	ruby-Rails
@@ -25,26 +26,27 @@ Obsoletes:	ruby-Rails
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-railties is the scripts that tie Ruby on Rails together.
+rails is the scripts that tie the libraries that make up Ruby on Rails 
+together.
 
-%description -l pl
-railties to skrypty, które wi±¿± Ruby on Rails w ca³o¶æ.
+Ruby on Rails is a rapid development web application platform written in 
+Ruby.
 
 %prep
-%setup -q
+%setup -q -n %{name}
 %patch0 -p1
-find . -name '.svn' -print0 | xargs -0 rm -r
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{name},%{ruby_rubylibdir}/%{name}}
+cd vendor/railties
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{name},%{ruby_rubylibdir}/railties}
 
 rm bin/breakpointer_for_gem
 rm environments/shared_for_gem.rb
-cp -a * $RPM_BUILD_ROOT%{_datadir}/%{name}
-rm $RPM_BUILD_ROOT%{_datadir}/%{name}/bin/rails
+cp -a configs fresh_rakefile dispatches  environments  helpers \
+	$RPM_BUILD_ROOT%{_datadir}/%{name}
 cp bin/* $RPM_BUILD_ROOT%{_bindir}
-cp -a lib/* $RPM_BUILD_ROOT%{ruby_rubylibdir}/%{name}
+cp -a lib/* $RPM_BUILD_ROOT%{ruby_rubylibdir}/railties/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -53,4 +55,4 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/%{name}
-%{ruby_rubylibdir}/%{name}
+%{ruby_rubylibdir}/railties
