@@ -3,22 +3,22 @@
 Summary:	Ruby on Rails setup scripts
 Summary(pl):	Skrypty instalacyjne Ruby on Rails
 Name:		rails
-Version:	0.11.1
+Version:	0.12.1
 Release:	1
 License:	GPL
 Group:		Development/Languages
-Source0:	http://rubyforge.org/frs/download.php/3693/%{name}-%{version}.tgz
-# Source0-md5:	c9d80b1a98db0fe7a7775fd7fab84420
+Source0:	http://rubyforge.org/frs/download.php/4159/%{name}-%{version}.tgz
+# Source0-md5:	5e649b7b68a552285c6c3cfb01fca117
 Patch0:		%{name}-sanity.patch
 URL:		http://www.rubyonrails.com/
 BuildRequires:	ruby
 BuildRequires:	ruby-devel
 Requires:	rake >= 0.4.13
-Requires:	ruby-ActionMailer >= 0.8.1
-Requires:	ruby-ActionPack >= 1.7.0
-Requires:	ruby-ActiveRecord >= 1.9.1
-Requires:	ruby-ActiveSupport >= 1.0.3
-Requires:	ruby-ActionWebService >= 0.6.2
+Requires:	ruby-ActionMailer >= 0.9.1
+Requires:	ruby-ActionPack >= 1.8.1
+Requires:	ruby-ActiveRecord >= 1.10.1
+Requires:	ruby-ActiveSupport >= 1.0.4
+Requires:	ruby-ActionWebService >= 0.7.1
 Requires:	ruby-dev-utils >= 1.0.1
 Requires:	ruby-extensions >= 0.6.0
 Obsoletes:	railties
@@ -51,9 +51,12 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{name}/bin,%{ruby_rubylibdir}
 rm bin/breakpointer_for_gem
 cp -a configs fresh_rakefile dispatches  environments  helpers html\
 	$RPM_BUILD_ROOT%{_datadir}/%{name}
-cp bin/{breakpointer,console_sandbox.rb,runner,update,console,destroy,server} \
+cp bin/{breakpointer,console_sandbox,runner,update,console,destroy,server,benchmarker,profiler} \
    $RPM_BUILD_ROOT%{_datadir}/%{name}/bin
+cp README \
+   $RPM_BUILD_ROOT%{_datadir}/%{name}/README
 cp bin/{rails,generate} $RPM_BUILD_ROOT%{_bindir}
+cp -a doc $RPM_BUILD_ROOT%{_datadir}/%{name}/doc
 cp -a lib/* $RPM_BUILD_ROOT%{ruby_rubylibdir}/railties
 
 %clean
