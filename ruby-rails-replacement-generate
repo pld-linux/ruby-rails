@@ -1,0 +1,5 @@
+#!/usr/bin/ruby
+
+STDERR.puts "You can just run rails-generate instead of this wrapper in PLD."
+
+exec '/usr/bin/rails-generate', *ARGV
