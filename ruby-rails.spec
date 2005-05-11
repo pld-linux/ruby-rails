@@ -22,6 +22,7 @@ Requires:	ruby-ActionWebService >= 0.7.1
 Requires:	ruby-dev-utils >= 1.0.1
 Requires:	ruby-extensions >= 0.6.0
 Requires:	ruby-Text-Format
+Requires:	ruby-TMail
 Requires:	ruby >= 1.8.2-4
 Obsoletes:	railties
 Obsoletes:	ruby-Rails
