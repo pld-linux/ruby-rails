@@ -14,7 +14,7 @@ Patch0:		%{name}-sanity.patch
 URL:		http://www.rubyonrails.com/
 BuildRequires:	ruby
 BuildRequires:	ruby-devel
-Requires:	rake >= 0.4.13
+Requires:	rake >= 0.5.4
 Requires:	ruby-ActionMailer >= 1.0.0
 Requires:	ruby-ActionPack >= 1.9.0
 Requires:	ruby-ActiveRecord >= 1.11.0
