@@ -9,6 +9,7 @@ License:	GPL
 Group:		Development/Languages
 Source0:	http://rubyforge.org/frs/download.php/4159/%{name}-%{version}.tgz
 # Source0-md5:	5e649b7b68a552285c6c3cfb01fca117
+Source1:	rails-replacement-generate
 Patch0:		%{name}-sanity.patch
 URL:		http://www.rubyonrails.com/
 BuildRequires:	ruby
@@ -56,9 +57,11 @@ cp -a configs fresh_rakefile dispatches  environments  helpers html\
 	$RPM_BUILD_ROOT%{_datadir}/%{name}
 cp bin/{breakpointer,console_sandbox,runner,update,console,destroy,server,benchmarker,profiler} \
    $RPM_BUILD_ROOT%{_datadir}/%{name}/bin
+cp %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/bin/generate
 cp README \
    $RPM_BUILD_ROOT%{_datadir}/%{name}/README
-cp bin/{rails,generate} $RPM_BUILD_ROOT%{_bindir}
+cp bin/rails $RPM_BUILD_ROOT%{_bindir}
+cp bin/generate $RPM_BUILD_ROOT%{_bindir}/rails-generate
 cp -a doc $RPM_BUILD_ROOT%{_datadir}/%{name}/doc
 cp -a lib/* $RPM_BUILD_ROOT%{ruby_rubylibdir}/railties
 
