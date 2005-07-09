@@ -3,23 +3,23 @@
 Summary:	Ruby on Rails setup scripts
 Summary(pl):	Skrypty instalacyjne Ruby on Rails
 Name:		rails
-Version:	0.12.1
+Version:	0.13.0
 Release:	1
 License:	GPL
 Group:		Development/Languages
-Source0:	http://rubyforge.org/frs/download.php/4159/%{name}-%{version}.tgz
-# Source0-md5:	5e649b7b68a552285c6c3cfb01fca117
-Source1:	rails-replacement-generate
+Source0:	http://rubyforge.org/frs/download.php/5123/%{name}-%{version}.tgz
+# Source0-md5:	bf2ec6ddb99ce3820d8ede82f804148a
+Source1:	%{name}-replacement-generate
 Patch0:		%{name}-sanity.patch
 URL:		http://www.rubyonrails.com/
 BuildRequires:	ruby
 BuildRequires:	ruby-devel
 Requires:	rake >= 0.4.13
-Requires:	ruby-ActionMailer >= 0.9.1
-Requires:	ruby-ActionPack >= 1.8.1
-Requires:	ruby-ActiveRecord >= 1.10.1
-Requires:	ruby-ActiveSupport >= 1.0.4
-Requires:	ruby-ActionWebService >= 0.7.1
+Requires:	ruby-ActionMailer >= 1.0.0
+Requires:	ruby-ActionPack >= 1.9.0
+Requires:	ruby-ActiveRecord >= 1.11.0
+Requires:	ruby-ActiveSupport >= 1.1.0
+Requires:	ruby-ActionWebService >= 0.8.0
 Requires:	ruby-dev-utils >= 1.0.1
 Requires:	ruby-extensions >= 0.6.0
 Requires:	ruby-Text-Format
@@ -31,11 +31,11 @@ Obsoletes:	ruby-Rails
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-rails is the scripts that tie the libraries that make up Ruby on Rails 
+rails is the scripts that tie the libraries that make up Ruby on Rails
 together.
 
-Ruby on Rails is a rapid development web application platform written in 
-Ruby.
+Ruby on Rails is a rapid development web application platform written
+in Ruby.
 
 %description -l pl
 rails to skrypty wi±¿±ce biblioteki tworz±ce razem Ruby on Rails.
