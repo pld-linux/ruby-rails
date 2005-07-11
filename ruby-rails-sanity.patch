@@ -1,6 +1,6 @@
 diff -ur rails-o/vendor/rails/railties/bin/breakpointer rails/vendor/rails/railties/bin/breakpointer
---- rails-o/vendor/rails/railties/bin/breakpointer	2005-07-06 11:53:13.000000000 -0600
-+++ rails/vendor/rails/railties/bin/breakpointer	2005-07-09 15:11:51.000000000 -0600
+--- rails-o/vendor/rails/railties/bin/breakpointer	2005-07-11 06:32:13.000000000 -0600
++++ rails/vendor/rails/railties/bin/breakpointer	2005-07-11 09:08:10.000000000 -0600
 @@ -1,3 +1,2 @@
 -#!/usr/local/bin/ruby
 -$LOAD_PATH << File.dirname(__FILE__) + '/../vendor/railties/lib'
@@ -8,8 +8,8 @@ diff -ur rails-o/vendor/rails/railties/bin/breakpointer rails/vendor/rails/railt
 +#!/usr/bin/ruby
 +require 'railties/breakpoint_client'
 diff -ur rails-o/vendor/rails/railties/bin/console rails/vendor/rails/railties/bin/console
---- rails-o/vendor/rails/railties/bin/console	2005-07-06 11:53:13.000000000 -0600
-+++ rails/vendor/rails/railties/bin/console	2005-07-09 15:11:51.000000000 -0600
+--- rails-o/vendor/rails/railties/bin/console	2005-07-11 06:32:13.000000000 -0600
++++ rails/vendor/rails/railties/bin/console	2005-07-11 09:08:10.000000000 -0600
 @@ -1,4 +1,4 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -17,8 +17,8 @@ diff -ur rails-o/vendor/rails/railties/bin/console rails/vendor/rails/railties/b
  
  require 'optparse'
 diff -ur rails-o/vendor/rails/railties/bin/destroy rails/vendor/rails/railties/bin/destroy
---- rails-o/vendor/rails/railties/bin/destroy	2005-07-06 11:53:13.000000000 -0600
-+++ rails/vendor/rails/railties/bin/destroy	2005-07-09 15:11:51.000000000 -0600
+--- rails-o/vendor/rails/railties/bin/destroy	2005-07-11 06:32:13.000000000 -0600
++++ rails/vendor/rails/railties/bin/destroy	2005-07-11 09:08:10.000000000 -0600
 @@ -1,7 +1,7 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -31,8 +31,8 @@ diff -ur rails-o/vendor/rails/railties/bin/destroy rails/vendor/rails/railties/b
  ARGV.shift if ['--help', '-h'].include?(ARGV[0])
  Rails::Generator::Scripts::Destroy.new.run(ARGV)
 diff -ur rails-o/vendor/rails/railties/bin/generate rails/vendor/rails/railties/bin/generate
---- rails-o/vendor/rails/railties/bin/generate	2005-07-06 11:53:13.000000000 -0600
-+++ rails/vendor/rails/railties/bin/generate	2005-07-09 15:11:51.000000000 -0600
+--- rails-o/vendor/rails/railties/bin/generate	2005-07-11 06:32:13.000000000 -0600
++++ rails/vendor/rails/railties/bin/generate	2005-07-11 09:08:10.000000000 -0600
 @@ -1,7 +1,14 @@
 -#!/usr/local/bin/ruby
 -require File.dirname(__FILE__) + '/../config/environment'
@@ -53,11 +53,14 @@ diff -ur rails-o/vendor/rails/railties/bin/generate rails/vendor/rails/railties/
  ARGV.shift if ['--help', '-h'].include?(ARGV[0])
  Rails::Generator::Scripts::Generate.new.run(ARGV)
 diff -ur rails-o/vendor/rails/railties/bin/rails rails/vendor/rails/railties/bin/rails
---- rails-o/vendor/rails/railties/bin/rails	2005-07-06 11:53:13.000000000 -0600
-+++ rails/vendor/rails/railties/bin/rails	2005-07-09 15:14:33.000000000 -0600
-@@ -1,8 +1,9 @@
+--- rails-o/vendor/rails/railties/bin/rails	2005-07-11 06:32:13.000000000 -0600
++++ rails/vendor/rails/railties/bin/rails	2005-07-11 09:10:46.000000000 -0600
+@@ -1,3 +1,4 @@
 +#!/usr/bin/ruby
- abort "Rails requires Ruby 1.8.2" if RUBY_VERSION < "1.8.2"
+ min_release  = "1.8.2 (2004-12-25)"
+ ruby_release = "#{RUBY_VERSION} (#{RUBY_RELEASE_DATE})"
+ if ruby_release < min_release
+@@ -11,7 +12,7 @@
  
  Signal.trap("INT") { puts; exit }
  
@@ -68,9 +71,11 @@ diff -ur rails-o/vendor/rails/railties/bin/rails rails/vendor/rails/railties/bin
  Rails::Generator::Base.use_application_sources!
  Rails::Generator::Scripts::Generate.new.run(ARGV, :generator => 'app')
 Only in rails/vendor/rails/railties/bin: rails~
+Only in rails/vendor/rails/railties/bin: rails.orig
+Only in rails/vendor/rails/railties/bin: rails.rej
 diff -ur rails-o/vendor/rails/railties/bin/server rails/vendor/rails/railties/bin/server
---- rails-o/vendor/rails/railties/bin/server	2005-07-06 11:53:13.000000000 -0600
-+++ rails/vendor/rails/railties/bin/server	2005-07-09 15:11:51.000000000 -0600
+--- rails-o/vendor/rails/railties/bin/server	2005-07-11 06:32:13.000000000 -0600
++++ rails/vendor/rails/railties/bin/server	2005-07-11 09:08:10.000000000 -0600
 @@ -1,4 +1,4 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -87,8 +92,8 @@ diff -ur rails-o/vendor/rails/railties/bin/server rails/vendor/rails/railties/bi
  OPTIONS['working_directory'] = File.expand_path(RAILS_ROOT)
  
 diff -ur rails-o/vendor/rails/railties/bin/update rails/vendor/rails/railties/bin/update
---- rails-o/vendor/rails/railties/bin/update	2005-07-06 11:53:13.000000000 -0600
-+++ rails/vendor/rails/railties/bin/update	2005-07-09 15:11:51.000000000 -0600
+--- rails-o/vendor/rails/railties/bin/update	2005-07-11 06:32:13.000000000 -0600
++++ rails/vendor/rails/railties/bin/update	2005-07-11 09:08:10.000000000 -0600
 @@ -1,5 +1,5 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -99,8 +104,8 @@ diff -ur rails-o/vendor/rails/railties/bin/update rails/vendor/rails/railties/bi
 +require 'railties/rails_generator/scripts/update'
  Rails::Generator::Scripts::Update.new.run(ARGV)
 diff -ur rails-o/vendor/rails/railties/dispatches/dispatch.fcgi rails/vendor/rails/railties/dispatches/dispatch.fcgi
---- rails-o/vendor/rails/railties/dispatches/dispatch.fcgi	2005-07-06 11:53:13.000000000 -0600
-+++ rails/vendor/rails/railties/dispatches/dispatch.fcgi	2005-07-09 15:11:51.000000000 -0600
+--- rails-o/vendor/rails/railties/dispatches/dispatch.fcgi	2005-07-11 06:32:13.000000000 -0600
++++ rails/vendor/rails/railties/dispatches/dispatch.fcgi	2005-07-11 09:08:10.000000000 -0600
 @@ -1,4 +1,4 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -116,8 +121,8 @@ diff -ur rails-o/vendor/rails/railties/dispatches/dispatch.fcgi rails/vendor/rai
  
  RailsFCGIHandler.process!
 diff -ur rails-o/vendor/rails/railties/dispatches/dispatch.rb rails/vendor/rails/railties/dispatches/dispatch.rb
---- rails-o/vendor/rails/railties/dispatches/dispatch.rb	2005-07-06 11:53:13.000000000 -0600
-+++ rails/vendor/rails/railties/dispatches/dispatch.rb	2005-07-09 15:11:51.000000000 -0600
+--- rails-o/vendor/rails/railties/dispatches/dispatch.rb	2005-07-11 06:32:13.000000000 -0600
++++ rails/vendor/rails/railties/dispatches/dispatch.rb	2005-07-11 09:08:10.000000000 -0600
 @@ -1,10 +1,8 @@
 -#!/usr/local/bin/ruby
 +#!/usr/bin/ruby
@@ -134,9 +139,9 @@ diff -ur rails-o/vendor/rails/railties/dispatches/dispatch.rb rails/vendor/rails
 \ No newline at end of file
 +Dispatcher.dispatch
 diff -ur rails-o/vendor/rails/railties/environments/environment.rb rails/vendor/rails/railties/environments/environment.rb
---- rails-o/vendor/rails/railties/environments/environment.rb	2005-07-06 11:53:13.000000000 -0600
-+++ rails/vendor/rails/railties/environments/environment.rb	2005-07-09 15:11:51.000000000 -0600
-@@ -33,8 +33,6 @@
+--- rails-o/vendor/rails/railties/environments/environment.rb	2005-07-11 06:32:13.000000000 -0600
++++ rails/vendor/rails/railties/environments/environment.rb	2005-07-11 09:08:10.000000000 -0600
+@@ -45,8 +45,6 @@
  ADDITIONAL_LOAD_PATHS.reverse.each { |dir| $:.unshift(dir) if File.directory?(dir) }
  
  # Require Rails libraries.
@@ -145,9 +150,10 @@ diff -ur rails-o/vendor/rails/railties/environments/environment.rb rails/vendor/
  require 'active_support'
  require 'active_record'
  require 'action_controller'
+Only in rails/vendor/rails/railties/environments: environment.rb.orig
 diff -ur rails-o/vendor/rails/railties/lib/rails_generator/generators/applications/app/app_generator.rb rails/vendor/rails/railties/lib/rails_generator/generators/applications/app/app_generator.rb
---- rails-o/vendor/rails/railties/lib/rails_generator/generators/applications/app/app_generator.rb	2005-07-06 11:53:13.000000000 -0600
-+++ rails/vendor/rails/railties/lib/rails_generator/generators/applications/app/app_generator.rb	2005-07-09 15:11:51.000000000 -0600
+--- rails-o/vendor/rails/railties/lib/rails_generator/generators/applications/app/app_generator.rb	2005-07-11 06:32:13.000000000 -0600
++++ rails/vendor/rails/railties/lib/rails_generator/generators/applications/app/app_generator.rb	2005-07-11 09:08:10.000000000 -0600
 @@ -4,7 +4,7 @@
    DEFAULT_SHEBANG = File.join(Config::CONFIG['bindir'],
                                Config::CONFIG['ruby_install_name'])
@@ -184,8 +190,8 @@ diff -ur rails-o/vendor/rails/railties/lib/rails_generator/generators/applicatio
  
  
 diff -ur rails-o/vendor/rails/railties/lib/rails_generator/generators/applications/app/USAGE rails/vendor/rails/railties/lib/rails_generator/generators/applications/app/USAGE
---- rails-o/vendor/rails/railties/lib/rails_generator/generators/applications/app/USAGE	2005-07-06 11:53:13.000000000 -0600
-+++ rails/vendor/rails/railties/lib/rails_generator/generators/applications/app/USAGE	2005-07-09 15:11:51.000000000 -0600
+--- rails-o/vendor/rails/railties/lib/rails_generator/generators/applications/app/USAGE	2005-07-11 06:32:13.000000000 -0600
++++ rails/vendor/rails/railties/lib/rails_generator/generators/applications/app/USAGE	2005-07-11 09:08:10.000000000 -0600
 @@ -7,10 +7,3 @@
  
      This generates a skeletal Rails installation in ~/Code/Ruby/weblog.
@@ -198,8 +204,8 @@ diff -ur rails-o/vendor/rails/railties/lib/rails_generator/generators/applicatio
 -    the bleeding edge of Rails development is to checkout from source control
 -    directly to the vendor directory.  See http://dev.rubyonrails.com
 diff -ur rails-o/vendor/rails/railties/lib/rails_generator/lookup.rb rails/vendor/rails/railties/lib/rails_generator/lookup.rb
---- rails-o/vendor/rails/railties/lib/rails_generator/lookup.rb	2005-07-06 11:53:13.000000000 -0600
-+++ rails/vendor/rails/railties/lib/rails_generator/lookup.rb	2005-07-09 15:11:51.000000000 -0600
+--- rails-o/vendor/rails/railties/lib/rails_generator/lookup.rb	2005-07-11 06:32:13.000000000 -0600
++++ rails/vendor/rails/railties/lib/rails_generator/lookup.rb	2005-07-11 09:08:10.000000000 -0600
 @@ -94,8 +94,7 @@
          #     generating in the context of a Rails application, so search
          #     RAILS_ROOT/script/generators.
@@ -238,8 +244,8 @@ diff -ur rails-o/vendor/rails/railties/lib/rails_generator/lookup.rb rails/vendo
    end
  end
 diff -ur rails-o/vendor/rails/railties/lib/rails_generator/scripts.rb rails/vendor/rails/railties/lib/rails_generator/scripts.rb
---- rails-o/vendor/rails/railties/lib/rails_generator/scripts.rb	2005-07-06 11:53:13.000000000 -0600
-+++ rails/vendor/rails/railties/lib/rails_generator/scripts.rb	2005-07-09 15:11:51.000000000 -0600
+--- rails-o/vendor/rails/railties/lib/rails_generator/scripts.rb	2005-07-11 06:32:13.000000000 -0600
++++ rails/vendor/rails/railties/lib/rails_generator/scripts.rb	2005-07-11 09:08:10.000000000 -0600
 @@ -67,12 +67,6 @@
              usage << <<end_blurb
    3. Run generate with no arguments for usage information
@@ -254,8 +260,8 @@ diff -ur rails-o/vendor/rails/railties/lib/rails_generator/scripts.rb rails/vend
              return usage
            end
 diff -ur rails-o/vendor/rails/railties/lib/rails_generator.rb rails/vendor/rails/railties/lib/rails_generator.rb
---- rails-o/vendor/rails/railties/lib/rails_generator.rb	2005-07-06 11:53:13.000000000 -0600
-+++ rails/vendor/rails/railties/lib/rails_generator.rb	2005-07-09 15:11:51.000000000 -0600
+--- rails-o/vendor/rails/railties/lib/rails_generator.rb	2005-07-11 06:32:13.000000000 -0600
++++ rails/vendor/rails/railties/lib/rails_generator.rb	2005-07-11 09:08:10.000000000 -0600
 @@ -24,12 +24,7 @@
  $:.unshift(File.dirname(__FILE__))
  $:.unshift(File.dirname(__FILE__) + "/../../activesupport/lib")
@@ -271,8 +277,8 @@ diff -ur rails-o/vendor/rails/railties/lib/rails_generator.rb rails/vendor/rails
  require 'rails_generator/base'
  require 'rails_generator/lookup'
 diff -ur rails-o/vendor/rails/railties/Rakefile rails/vendor/rails/railties/Rakefile
---- rails-o/vendor/rails/railties/Rakefile	2005-07-06 11:53:13.000000000 -0600
-+++ rails/vendor/rails/railties/Rakefile	2005-07-09 15:11:51.000000000 -0600
+--- rails-o/vendor/rails/railties/Rakefile	2005-07-11 06:32:13.000000000 -0600
++++ rails/vendor/rails/railties/Rakefile	2005-07-11 09:09:44.000000000 -0600
 @@ -1,7 +1,6 @@
  require 'rake'
  require 'rake/testtask'
@@ -325,15 +331,15 @@ diff -ur rails-o/vendor/rails/railties/Rakefile rails/vendor/rails/railties/Rake
 -  s.summary = "Web-application framework with template engine, control-flow layer, and ORM."
 -  s.description = <<-EOF
 -    Rails is a framework for building web-application using CGI, FCGI, mod_ruby, or WEBrick
--    on top of either MySQL, PostgreSQL, or SQLite with eRuby-based templates.
+-    on top of either MySQL, PostgreSQL, SQLite, DB2, SQL Server, or Oracle with eRuby- or Builder-based templates.
 -  EOF
 -
 -  s.add_dependency('rake', '>= 0.5.3')
--  s.add_dependency('activesupport',    '= 1.1.0' + PKG_BUILD)
--  s.add_dependency('activerecord',     '= 1.11.0' + PKG_BUILD)
--  s.add_dependency('actionpack',       '= 1.9.0' + PKG_BUILD)
--  s.add_dependency('actionmailer',     '= 1.0.0' + PKG_BUILD)
--  s.add_dependency('actionwebservice', '= 0.8.0' + PKG_BUILD)
+-  s.add_dependency('activesupport',    '= 1.1.1' + PKG_BUILD)
+-  s.add_dependency('activerecord',     '= 1.11.1' + PKG_BUILD)
+-  s.add_dependency('actionpack',       '= 1.9.1' + PKG_BUILD)
+-  s.add_dependency('actionmailer',     '= 1.0.1' + PKG_BUILD)
+-  s.add_dependency('actionwebservice', '= 0.8.1' + PKG_BUILD)
 -
 -  s.rdoc_options << '--exclude' << '.'
 -  s.has_rdoc = false
@@ -476,3 +482,6 @@ diff -ur rails-o/vendor/rails/railties/Rakefile rails/vendor/rails/railties/Rake
 -    end
 -  end
 -end
+Only in rails/vendor/rails/railties: Rakefile~
+Only in rails/vendor/rails/railties: Rakefile.orig
+Only in rails/vendor/rails/railties: Rakefile.rej
