@@ -129,7 +129,6 @@ diff -ur rails-o/vendor/rails/railties/lib/rails_generator/generators/applicatio
      end
  
  
-Only in rails/vendor/rails/railties/lib/rails_generator/generators/applications/app: app_generator.rb~
 diff -ur rails-o/vendor/rails/railties/lib/rails_generator/generators/applications/app/USAGE rails/vendor/rails/railties/lib/rails_generator/generators/applications/app/USAGE
 --- rails-o/vendor/rails/railties/lib/rails_generator/generators/applications/app/USAGE	2005-10-19 12:15:58.000000000 -0600
 +++ rails/vendor/rails/railties/lib/rails_generator/generators/applications/app/USAGE	2005-10-25 11:45:38.000000000 -0600
@@ -184,7 +183,6 @@ diff -ur rails-o/vendor/rails/railties/lib/rails_generator/lookup.rb rails/vendo
 -
    end
  end
-Only in rails/vendor/rails/railties/lib/rails_generator: lookup.rb.orig
 diff -ur rails-o/vendor/rails/railties/lib/rails_generator/scripts.rb rails/vendor/rails/railties/lib/rails_generator/scripts.rb
 --- rails-o/vendor/rails/railties/lib/rails_generator/scripts.rb	2005-10-19 12:15:58.000000000 -0600
 +++ rails/vendor/rails/railties/lib/rails_generator/scripts.rb	2005-10-25 11:45:38.000000000 -0600
@@ -430,4 +428,3 @@ diff -ur rails-o/vendor/rails/railties/Rakefile rails/vendor/rails/railties/Rake
 -    end
 -  end
 -end
-Only in rails/vendor/rails/railties: Rakefile~
