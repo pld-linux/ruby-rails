@@ -17,11 +17,11 @@ URL:		http://www.rubyonrails.com/
 BuildRequires:	ruby
 BuildRequires:	ruby-devel
 Requires:	rake >= 0.5.4
-Requires:	ruby-ActionMailer >= 1.0.0
-Requires:	ruby-ActionPack >= 1.9.0
-Requires:	ruby-ActiveRecord >= 1.11.0
-Requires:	ruby-ActiveSupport >= 1.1.0
-Requires:	ruby-ActionWebService >= 0.8.0
+Requires:	ruby-ActionMailer >= 1.1.1
+Requires:	ruby-ActionPack >= 1.10.1
+Requires:	ruby-ActiveRecord >= 1.12.0
+Requires:	ruby-ActiveSupport >= 1.2.0
+Requires:	ruby-ActionWebService >= 0.9.1
 Requires:	ruby-dev-utils >= 1.0.1
 Requires:	ruby-extensions >= 0.6.0
 Requires:	ruby-Text-Format
