@@ -5,12 +5,12 @@
 Summary:	Ruby on Rails setup scripts
 Summary(pl):	Skrypty instalacyjne Ruby on Rails
 Name:		rails
-Version:	0.13.0
+Version:	0.14.1
 Release:	1
 License:	GPL
 Group:		Development/Languages
-Source0:	http://rubyforge.org/frs/download.php/5123/%{name}-%{version}.tgz
-# Source0-md5:	bf2ec6ddb99ce3820d8ede82f804148a
+Source0:	http://rubyforge.org/frs/download.php/6563/%{name}-%{version}.tgz
+# Source0-md5:	660f843c46c37a6c95ddfc7a0d1dec06
 Source1:	%{name}-replacement-generate
 Patch0:		%{name}-sanity.patch
 URL:		http://www.rubyonrails.com/
@@ -54,10 +54,9 @@ rm -rf $RPM_BUILD_ROOT
 cd vendor/rails/railties
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{name}/bin,%{ruby_rubylibdir}/railties}
 
-rm bin/breakpointer_for_gem
 cp -a configs fresh_rakefile dispatches  environments  helpers html\
 	$RPM_BUILD_ROOT%{_datadir}/%{name}
-cp bin/{breakpointer,console_sandbox,runner,update,console,destroy,server,benchmarker,profiler} \
+cp -a bin/* \
    $RPM_BUILD_ROOT%{_datadir}/%{name}/bin
 cp %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/bin/generate
 cp README \
