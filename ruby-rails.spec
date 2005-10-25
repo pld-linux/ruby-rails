@@ -58,11 +58,11 @@ cp -a configs fresh_rakefile dispatches  environments  helpers html\
 	$RPM_BUILD_ROOT%{_datadir}/%{name}
 cp -a bin/* \
    $RPM_BUILD_ROOT%{_datadir}/%{name}/bin
-cp %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/bin/generate
+install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/bin/generate
 cp README \
    $RPM_BUILD_ROOT%{_datadir}/%{name}/README
-cp bin/rails $RPM_BUILD_ROOT%{_bindir}
-cp bin/generate $RPM_BUILD_ROOT%{_bindir}/rails-generate
+install bin/rails $RPM_BUILD_ROOT%{_bindir}
+install bin/generate $RPM_BUILD_ROOT%{_bindir}/rails-generate
 cp -a doc $RPM_BUILD_ROOT%{_datadir}/%{name}/doc
 cp -a lib/* $RPM_BUILD_ROOT%{ruby_rubylibdir}/railties
 
