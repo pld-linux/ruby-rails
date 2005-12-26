@@ -1,7 +1,5 @@
 # TODO
-# - error: php-pear-Text_Highlighter-0.6.5-1 (cnfl rails = 0.12.1-1) conflicts with installed rails-0.12.1-1
-%define	ruby_archdir	%(ruby -r rbconfig -e 'print Config::CONFIG["archdir"]')
-%define ruby_rubylibdir %(ruby -r rbconfig -e 'print Config::CONFIG["rubylibdir"]')
+# - error:php-pear-Text_Highlighter-0.6.5-1 (cnfl rails = 0.12.1-1) conflicts with installed rails-0.12.1-1
 Summary:	Ruby on Rails setup scripts
 Summary(pl):	Skrypty instalacyjne Ruby on Rails
 Name:		rails
@@ -14,19 +12,20 @@ Source0:	http://rubyforge.org/frs/download.php/6563/%{name}-%{version}.tgz
 Source1:	%{name}-replacement-generate
 Patch0:		%{name}-sanity.patch
 URL:		http://www.rubyonrails.com/
+BuildRequires:	rpmbuild(macros) >= 1.272
 BuildRequires:	ruby
 BuildRequires:	ruby-devel
 Requires:	rake >= 0.5.4
+Requires:	ruby >= 1.8.2-4
 Requires:	ruby-ActionMailer >= 1.1.1
 Requires:	ruby-ActionPack >= 1.10.1
+Requires:	ruby-ActionWebService >= 0.9.1
 Requires:	ruby-ActiveRecord >= 1.12.0
 Requires:	ruby-ActiveSupport >= 1.2.0
-Requires:	ruby-ActionWebService >= 0.9.1
+Requires:	ruby-TMail
+Requires:	ruby-Text-Format
 Requires:	ruby-dev-utils >= 1.0.1
 Requires:	ruby-extensions >= 0.6.0
-Requires:	ruby-Text-Format
-Requires:	ruby-TMail
-Requires:	ruby >= 1.8.2-4
 Obsoletes:	railties
 Obsoletes:	ruby-Rails
 #BuildArch:	noarch
@@ -51,9 +50,9 @@ napisana w jêzyku Ruby.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd vendor/rails/railties
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{name}/bin,%{ruby_rubylibdir}/railties}
 
+cd vendor/rails/railties
 cp -a configs fresh_rakefile dispatches  environments  helpers html\
 	$RPM_BUILD_ROOT%{_datadir}/%{name}
 cp -a bin/* \
