@@ -4,7 +4,7 @@ Summary:	Ruby on Rails setup scripts
 Summary(pl):	Skrypty instalacyjne Ruby on Rails
 Name:		rails
 Version:	0.14.1
-Release:	1
+Release:	2
 License:	GPL
 Group:		Development/Languages
 Source0:	http://rubyforge.org/frs/download.php/6563/%{name}-%{version}.tgz
@@ -13,10 +13,10 @@ Source1:	%{name}-replacement-generate
 Patch0:		%{name}-sanity.patch
 URL:		http://www.rubyonrails.com/
 BuildRequires:	rpmbuild(macros) >= 1.272
-BuildRequires:	ruby
+BuildRequires:	ruby-modules
 BuildRequires:	ruby-devel
 Requires:	rake >= 0.5.4
-Requires:	ruby >= 1.8.2-4
+Requires:	ruby-modules >= 1.8.2-4
 Requires:	ruby-ActionMailer >= 1.1.1
 Requires:	ruby-ActionPack >= 1.10.1
 Requires:	ruby-ActionWebService >= 0.9.1
