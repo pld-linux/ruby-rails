@@ -13,7 +13,6 @@ Source1:	%{name}-replacement-generate
 Patch0:		%{name}-sanity.patch
 URL:		http://www.rubyonrails.com/
 BuildRequires:	rpmbuild(macros) >= 1.272
-BuildRequires:	ruby-modules
 BuildRequires:	ruby-devel
 Requires:	rake >= 0.5.4
 Requires:	ruby-modules >= 1.8.2-4
