@@ -12,7 +12,7 @@ Source0:	http://rubyforge.org/frs/download.php/6563/%{name}-%{version}.tgz
 Source1:	%{name}-replacement-generate
 Patch0:		%{name}-sanity.patch
 URL:		http://www.rubyonrails.com/
-BuildRequires:	rpmbuild(macros) >= 1.272
+BuildRequires:	rpmbuild(macros) >= 1.277
 BuildRequires:	ruby-devel
 Requires:	rake >= 0.5.4
 Requires:	ruby-modules >= 1.8.2-4
@@ -28,6 +28,7 @@ Requires:	ruby-extensions >= 0.6.0
 Obsoletes:	railties
 Obsoletes:	ruby-Rails
 #BuildArch:	noarch
+%ruby_mod_ver_requires_eq
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
