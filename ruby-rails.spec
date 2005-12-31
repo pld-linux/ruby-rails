@@ -28,7 +28,7 @@ Requires:	ruby-extensions >= 0.6.0
 Obsoletes:	railties
 Obsoletes:	ruby-Rails
 #BuildArch:	noarch
-%ruby_mod_ver_requires_eq
+%{?ruby_mod_ver_requires_eq}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
