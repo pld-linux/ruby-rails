@@ -1,7 +1,7 @@
 # TODO
 # - error:php-pear-Text_Highlighter-0.6.5-1 (cnfl rails = 0.12.1-1) conflicts with installed rails-0.12.1-1
 Summary:	Ruby on Rails setup scripts
-Summary(pl):	Skrypty instalacyjne Ruby on Rails
+Summary(pl.UTF-8):   Skrypty instalacyjne Ruby on Rails
 Name:		rails
 Version:	1.0.0
 Release:	1
@@ -38,11 +38,11 @@ together.
 Ruby on Rails is a rapid development web application platform written
 in Ruby.
 
-%description -l pl
-rails to skrypty wi±¿±ce biblioteki tworz±ce razem Ruby on Rails.
+%description -l pl.UTF-8
+rails to skrypty wiÄ…Å¼Ä…ce biblioteki tworzÄ…ce razem Ruby on Rails.
 
 Ruby on Rails to platforma WWW do szybkiego tworzenia aplikacji
-napisana w jêzyku Ruby.
+napisana w jÄ™zyku Ruby.
 
 %prep
 %setup -q -n %{name}
