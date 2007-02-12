@@ -1,7 +1,7 @@
 # TODO
 # - error:php-pear-Text_Highlighter-0.6.5-1 (cnfl rails = 0.12.1-1) conflicts with installed rails-0.12.1-1
 Summary:	Ruby on Rails setup scripts
-Summary(pl.UTF-8):   Skrypty instalacyjne Ruby on Rails
+Summary(pl.UTF-8):	Skrypty instalacyjne Ruby on Rails
 Name:		rails
 Version:	1.0.0
 Release:	1
