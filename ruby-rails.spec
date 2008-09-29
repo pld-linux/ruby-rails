@@ -12,6 +12,9 @@ Source0:	http://rubyforge.org/frs/download.php/7654/%{name}-%{version}.tgz
 Source1:	%{name}-replacement-generate
 Patch0:		%{name}-sanity.patch
 URL:		http://www.rubyonrails.com/
+# http://securitytracker.com/alerts/2008/Sep/1020871.html
+# upgrade to 2.1 or 1.2 with patches needed:
+BuildRequires:	security-upgrade
 BuildRequires:	rpmbuild(macros) >= 1.277
 BuildRequires:	ruby-devel
 Requires:	rake >= 0.5.4
