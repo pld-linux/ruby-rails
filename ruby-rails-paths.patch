@@ -1,0 +1,270 @@
+ bin/rails                                          |    9 ++--
+ environments/boot.rb                               |   55 +-------------------
+ lib/commands/servers/mongrel.rb                    |   11 +++-
+ lib/initializer.rb                                 |    3 +-
+ lib/rails/gem_dependency.rb                        |    2 +-
+ lib/rails_generator.rb                             |    3 -
+ .../generators/applications/app/app_generator.rb   |    3 +-
+ lib/rubyprof_ext.rb                                |   35 ------------
+ lib/tasks/framework.rake                           |    2 +-
+ 9 files changed, 20 insertions(+), 103 deletions(-)
+
+diff --git a/bin/rails b/bin/rails
+index ae0cc8a..a229a73 100755
+--- a/bin/rails
++++ b/bin/rails
+@@ -1,7 +1,8 @@
+-require File.dirname(__FILE__) + '/../lib/ruby_version_check'
++#!/usr/bin/ruby
++
+ Signal.trap("INT") { puts; exit }
+ 
+-require File.dirname(__FILE__) + '/../lib/rails/version'
++require 'rails/version'
+ if %w(--version -v).include? ARGV.first
+   puts "Rails #{Rails::VERSION::STRING}"
+   exit(0)
+@@ -10,10 +11,10 @@ end
+ freeze   = ARGV.any? { |option| %w(--freeze -f).include?(option) }
+ app_path = ARGV.first
+ 
+-require File.dirname(__FILE__) + '/../lib/rails_generator'
++require 'rails_generator'
+ 
+ require 'rails_generator/scripts/generate'
+ Rails::Generator::Base.use_application_sources!
+ Rails::Generator::Scripts::Generate.new.run(ARGV, :generator => 'app')
+ 
+-Dir.chdir(app_path) { `rake rails:freeze:gems`; puts "froze" } if freeze
+\ No newline at end of file
++Dir.chdir(app_path) { `rake rails:freeze:gems`; puts "froze" } if freeze
+diff --git a/environments/boot.rb b/environments/boot.rb
+index 6a30b54..4bd5b4e 100644
+--- a/environments/boot.rb
++++ b/environments/boot.rb
+@@ -17,7 +17,7 @@ module Rails
+     end
+ 
+     def pick_boot
+-      (vendor_rails? ? VendorBoot : GemBoot).new
++      (vendor_rails? ? VendorBoot : SystemBoot).new
+     end
+ 
+     def vendor_rails?
+@@ -47,61 +47,10 @@ module Rails
+     end
+   end
+ 
+-  class GemBoot < Boot
++  class SystemBoot < Boot
+     def load_initializer
+-      self.class.load_rubygems
+-      load_rails_gem
+       require 'initializer'
+     end
+-
+-    def load_rails_gem
+-      if version = self.class.gem_version
+-        gem 'rails', version
+-      else
+-        gem 'rails'
+-      end
+-    rescue Gem::LoadError => load_error
+-      $stderr.puts %(Missing the Rails #{version} gem. Please `gem install -v=#{version} rails`, update your RAILS_GEM_VERSION setting in config/environment.rb for the Rails version you do have installed, or comment out RAILS_GEM_VERSION to use the latest version installed.)
+-      exit 1
+-    end
+-
+-    class << self
+-      def rubygems_version
+-        Gem::RubyGemsVersion if defined? Gem::RubyGemsVersion
+-      end
+-
+-      def gem_version
+-        if defined? RAILS_GEM_VERSION
+-          RAILS_GEM_VERSION
+-        elsif ENV.include?('RAILS_GEM_VERSION')
+-          ENV['RAILS_GEM_VERSION']
+-        else
+-          parse_gem_version(read_environment_rb)
+-        end
+-      end
+-
+-      def load_rubygems
+-        require 'rubygems'
+-        min_version = '1.1.1'
+-        unless rubygems_version >= min_version
+-          $stderr.puts %Q(Rails requires RubyGems >= #{min_version} (you have #{rubygems_version}). Please `gem update --system` and try again.)
+-          exit 1
+-        end
+-
+-      rescue LoadError
+-        $stderr.puts %Q(Rails requires RubyGems >= #{min_version}. Please install RubyGems and try again: http://rubygems.rubyforge.org)
+-        exit 1
+-      end
+-
+-      def parse_gem_version(text)
+-        $1 if text =~ /^[^#]*RAILS_GEM_VERSION\s*=\s*["']([!~<>=]*\s*[\d.]+)["']/
+-      end
+-
+-      private
+-        def read_environment_rb
+-          File.read("#{RAILS_ROOT}/config/environment.rb")
+-        end
+-    end
+   end
+ end
+ 
+diff --git a/lib/commands/servers/mongrel.rb b/lib/commands/servers/mongrel.rb
+index 7bb110f..bc562d2 100644
+--- a/lib/commands/servers/mongrel.rb
++++ b/lib/commands/servers/mongrel.rb
+@@ -43,7 +43,8 @@ parameters = [
+ ]
+ 
+ if OPTIONS[:detach]
+-  `mongrel_rails #{parameters.join(" ")} -d`
++  parameters << "-d"
++  exec "mongrel_rails", *parameters
+ else
+   ENV["RAILS_ENV"] = OPTIONS[:environment]
+   RAILS_ENV.replace(OPTIONS[:environment]) if defined?(RAILS_ENV)
+@@ -61,9 +62,13 @@ else
+ 
+   begin
+     silence_warnings { ARGV = parameters }
+-    load("mongrel_rails")
++    begin
++      load("mongrel_rails")
++    rescue LoadError
++      load(File.join(Config::CONFIG["bindir"], "mongrel_rails"))
++    end
+   ensure
+     tail_thread.kill if tail_thread
+     puts 'Exiting'
+   end
+-end
+\ No newline at end of file
++end
+diff --git a/lib/initializer.rb b/lib/initializer.rb
+index b77dc16..acfec78 100644
+--- a/lib/initializer.rb
++++ b/lib/initializer.rb
+@@ -2,7 +2,6 @@ require 'logger'
+ require 'set'
+ require 'pathname'
+ 
+-$LOAD_PATH.unshift File.dirname(__FILE__)
+ require 'railties_path'
+ require 'rails/version'
+ require 'rails/plugin/locator'
+@@ -852,7 +851,7 @@ Run `rake gems:install` to install the missing gems.
+       end
+ 
+       def default_plugin_paths
+-        ["#{root_path}/vendor/plugins"]
++        ["#{root_path}/vendor/plugins", "#{RAILTIES_PATH}/plugins"]
+       end
+ 
+       def default_plugin_locators
+diff --git a/lib/rails/gem_dependency.rb b/lib/rails/gem_dependency.rb
+index 471e03f..f57aaa8 100644
+--- a/lib/rails/gem_dependency.rb
++++ b/lib/rails/gem_dependency.rb
+@@ -33,7 +33,7 @@ module Rails
+       if unpacked_paths.empty?
+         args = [@name]
+         args << @requirement.to_s if @requirement
+-        gem *args
++        gem(*args)
+       else
+         $LOAD_PATH.unshift File.join(unpacked_paths.first, 'lib')
+         ext = File.join(unpacked_paths.first, 'ext')
+diff --git a/lib/rails_generator.rb b/lib/rails_generator.rb
+index 9f0ffc1..5a55084 100644
+--- a/lib/rails_generator.rb
++++ b/lib/rails_generator.rb
+@@ -21,9 +21,6 @@
+ # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ #++
+ 
+-$:.unshift(File.dirname(__FILE__))
+-$:.unshift(File.dirname(__FILE__) + "/../../activesupport/lib")
+-
+ begin
+   require 'active_support'  
+ rescue LoadError
+diff --git a/lib/rails_generator/generators/applications/app/app_generator.rb b/lib/rails_generator/generators/applications/app/app_generator.rb
+index 2f2dd82..27911ed 100644
+--- a/lib/rails_generator/generators/applications/app/app_generator.rb
++++ b/lib/rails_generator/generators/applications/app/app_generator.rb
+@@ -1,6 +1,7 @@
+ require 'rbconfig'
+ require 'digest/md5' 
+ require 'rails_generator/secret_key_generator'
++require 'railties_path'
+ 
+ class AppGenerator < Rails::Generator::Base
+   DEFAULT_SHEBANG = File.join(Config::CONFIG['bindir'],
+@@ -11,7 +12,7 @@ class AppGenerator < Rails::Generator::Base
+ 
+   default_options   :db => (ENV["RAILS_DEFAULT_DATABASE"] || DEFAULT_DATABASE),
+     :shebang => DEFAULT_SHEBANG, :freeze => false
+-  mandatory_options :source => "#{File.dirname(__FILE__)}/../../../../.."
++  mandatory_options :source => RAILTIES_PATH
+ 
+   def initialize(runtime_args, runtime_options = {})
+     super
+diff --git a/lib/rubyprof_ext.rb b/lib/rubyprof_ext.rb
+deleted file mode 100644
+index f6e9035..0000000
+--- a/lib/rubyprof_ext.rb
++++ /dev/null
+@@ -1,35 +0,0 @@
+-require 'prof'
+-
+-module Prof #:nodoc:
+-  # Adapted from Shugo Maeda's unprof.rb
+-  def self.print_profile(results, io = $stderr)
+-    total = results.detect { |i|
+-      i.method_class.nil? && i.method_id == :"#toplevel"
+-    }.total_time
+-    total = 0.001 if total < 0.001
+-
+-    io.puts "  %%   cumulative   self              self     total"
+-    io.puts " time   seconds   seconds    calls  ms/call  ms/call  name"
+-
+-    sum = 0.0
+-    for r in results
+-      sum += r.self_time
+-
+-      name =  if r.method_class.nil?
+-                r.method_id.to_s
+-              elsif r.method_class.is_a?(Class)
+-                "#{r.method_class}##{r.method_id}"
+-              else
+-                "#{r.method_class}.#{r.method_id}"
+-              end
+-      io.printf "%6.2f %8.3f  %8.3f %8d %8.2f %8.2f  %s\n",
+-        r.self_time / total * 100,
+-        sum,
+-        r.self_time,
+-        r.count,
+-        r.self_time * 1000 / r.count,
+-        r.total_time * 1000 / r.count,
+-        name
+-    end
+-  end
+-end
+diff --git a/lib/tasks/framework.rake b/lib/tasks/framework.rake
+index 71aea09..c4d444e 100644
+--- a/lib/tasks/framework.rake
++++ b/lib/tasks/framework.rake
+@@ -80,7 +80,7 @@ namespace :rails do
+     desc "Add new scripts to the application script/ directory"
+     task :scripts do
+       local_base = "script"
+-      edge_base  = "#{File.dirname(__FILE__)}/../../bin"
++      edge_base  = "#{RAILTIES_PATH}/bin"
+ 
+       local = Dir["#{local_base}/**/*"].reject { |path| File.directory?(path) }
+       edge  = Dir["#{edge_base}/**/*"].reject { |path| File.directory?(path) }
