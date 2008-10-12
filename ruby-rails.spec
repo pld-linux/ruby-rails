@@ -1,18 +1,15 @@
 %define pkgname rails
 Summary:	Web-application framework with template engine, control-flow layer, and ORM
 Name:		rails
-Version:	2.0.2
+Version:	2.0.4
 Release:	0.1
 License:	MIT
 Group:		Development/Languages
-Source0:	http://rubyforge.org/frs/download.php/29554/%{name}-%{version}.gem
-# Source0-md5:	8a3617501716fe909f08686407ff04ce
+Source0:	http://rubyforge.org/frs/download.php/42597/%{name}-%{version}.gem
+# Source0-md5:	14b0f7202e0a42230d794b8335588cd7
 Patch0:		%{name}-paths.patch
 URL:		http://www.rubyonrails.org/
-BuildRequires:	rake
 BuildRequires:	rpmbuild(macros) >= 1.277
-BuildRequires:	ruby-devel
-BuildRequires:	setup.rb = 3.3.1
 Requires:	rake >= 0.7.2
 Requires:	ruby-TMail
 Requires:	ruby-Text-Format
@@ -59,13 +56,20 @@ SQL Server, or Oracle with eRuby- or Builder-based templates.
 This package contains railties module.
 
 %prep
-%setup -q -c
+%setup -qcT
 %{__tar} xf %{SOURCE0} -O data.tar.gz | %{__tar} xz
-cp %{_datadir}/setup.rb .
+find -newer README  -o -print | xargs touch --reference %{SOURCE0}
 %patch0 -p1
 
-find -type f -print0 | xargs -r0 %{__sed} -i -e 's,/usr/local/bin/ruby,%{_bindir}/ruby,' --
-%{__sed} -i -e "s, at RAILS_DATADIR at ,%{_datadir}/%{pkgname}," lib/rails_generator/generators/applications/app/app_generator.rb
+%{__grep} -rl '/usr/local/bin/ruby' . | xargs %{__sed} -i -e 's,/usr/local/bin/ruby,%{_bindir}/ruby,'
+%{__grep} -rl '/usr/bin/env' . | xargs %{__sed} -i -e '
+	s,/usr/bin/env ruby,%{_bindir}/ruby,
+	s,/usr/bin/env spawn-fcgi,/usr/sbin/spawn-fcgi,
+	s,/usr/bin/env \(#{File.expand_path(\$0)}\),\1,
+'
+
+# cleanup backups after patching
+find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -73,7 +77,7 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{pkgname},%{ruby_sitelibdir}}
 cp -a lib/* $RPM_BUILD_ROOT%ruby_sitelibdir
 cp -a bin builtin configs dispatches doc environments helpers html fresh_rakefile README $RPM_BUILD_ROOT%{_datadir}/%{pkgname}
 install -p bin/rails $RPM_BUILD_ROOT%{_bindir}/rails
-cat <<EOF > $RPM_BUILD_ROOT%{ruby_sitelibdir}/railties_path.rb
+cat <<'EOF' > $RPM_BUILD_ROOT%{ruby_sitelibdir}/railties_path.rb
 RAILTIES_PATH = "%{_datadir}/%{pkgname}"
 EOF
 
