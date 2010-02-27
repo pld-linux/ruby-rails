@@ -1,11 +1,11 @@
 %define pkgname rails
 Summary:	Web-application framework with template engine, control-flow layer, and ORM
-Name:		rails
+Name:		ruby-%{pkgname}
 Version:	2.0.4
 Release:	0.1
 License:	MIT
 Group:		Development/Languages
-Source0:	http://rubyforge.org/frs/download.php/42597/%{name}-%{version}.gem
+Source0:	http://rubyforge.org/frs/download.php/42597/%{pkgname}-%{version}.gem
 # Source0-md5:	14b0f7202e0a42230d794b8335588cd7
 Patch0:		%{name}-paths.patch
 URL:		http://www.rubyonrails.org/
