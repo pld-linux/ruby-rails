@@ -12,8 +12,6 @@ URL:		http://www.rubyonrails.org/
 BuildRequires:	rpmbuild(macros) >= 1.277
 BuildRequires:	ruby-modules
 Requires:	rake >= 0.7.2
-Requires:	ruby-TMail
-Requires:	ruby-Text-Format
 Requires:	ruby-dev-utils >= 1.0.1
 Requires:	ruby-extensions >= 0.6.0
 Requires:	ruby-modules >= 1.8.4-1
@@ -43,11 +41,11 @@ This package contains development tools.
 %package -n ruby-railties
 Summary:	Gluing the Engine to the Rails
 Group:		Development/Languages
-Requires:	ruby-ActionMailer >= 2.0.4
-Requires:	ruby-ActionPack >= 2.0.4
-Requires:	ruby-ActiveRecord >= 2.0.4
-Requires:	ruby-ActiveResource >= 2.0.4
-Requires:	ruby-ActiveSupport >= 2.0.4
+Requires:	ruby-actionmailer >= 2.0.4
+Requires:	ruby-actionpack >= 2.0.4
+Requires:	ruby-activerecord >= 2.0.4
+Requires:	ruby-activeresource >= 2.0.4
+Requires:	ruby-activesupport >= 2.0.4
 
 %description -n ruby-railties
 Rails is a framework for building web-application using CGI, FCGI,
