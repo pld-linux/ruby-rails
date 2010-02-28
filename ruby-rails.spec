@@ -10,6 +10,7 @@ Source0:	http://rubyforge.org/frs/download.php/42597/%{pkgname}-%{version}.gem
 Patch0:		%{name}-paths.patch
 URL:		http://www.rubyonrails.org/
 BuildRequires:	rpmbuild(macros) >= 1.277
+BuildRequires:	ruby-modules
 Requires:	rake >= 0.7.2
 Requires:	ruby-TMail
 Requires:	ruby-Text-Format
@@ -74,7 +75,7 @@ find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{pkgname},%{ruby_sitelibdir}}
-cp -a lib/* $RPM_BUILD_ROOT%ruby_sitelibdir
+cp -a lib/* $RPM_BUILD_ROOT%{ruby_sitelibdir}
 cp -a bin builtin configs dispatches doc environments helpers html fresh_rakefile README $RPM_BUILD_ROOT%{_datadir}/%{pkgname}
 install -p bin/rails $RPM_BUILD_ROOT%{_bindir}/rails
 cat <<'EOF' > $RPM_BUILD_ROOT%{ruby_sitelibdir}/railties_path.rb
