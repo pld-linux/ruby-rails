@@ -1,12 +1,12 @@
 %define pkgname rails
 Summary:	Web-application framework with template engine, control-flow layer, and ORM
 Name:		ruby-%{pkgname}
-Version:	2.0.4
+Version:	2.3.5
 Release:	0.1
 License:	MIT
 Group:		Development/Languages
-Source0:	http://rubyforge.org/frs/download.php/42597/%{pkgname}-%{version}.gem
-# Source0-md5:	14b0f7202e0a42230d794b8335588cd7
+Source0:	http://rubygems.org/downloads/%{pkgname}-%{version}.gem
+# Source0-md5:	d09038cee224b1a51ae50eff772cd8f2
 Patch0:		%{name}-paths.patch
 URL:		http://www.rubyonrails.org/
 BuildRequires:	rpmbuild(macros) >= 1.277
@@ -62,9 +62,8 @@ This package contains railties module.
 find -newer README  -o -print | xargs touch --reference %{SOURCE0}
 %patch0 -p1
 
-%{__grep} -rl '/usr/local/bin/ruby' . | xargs %{__sed} -i -e 's,/usr/local/bin/ruby,%{_bindir}/ruby,'
 %{__grep} -rl '/usr/bin/env' . | xargs %{__sed} -i -e '
-	s,/usr/bin/env ruby,%{_bindir}/ruby,
+	s,/usr/bin/env ruby,%{__ruby},
 	s,/usr/bin/env spawn-fcgi,/usr/sbin/spawn-fcgi,
 	s,/usr/bin/env \(#{File.expand_path(\$0)}\),\1,
 '
@@ -75,9 +74,11 @@ find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{pkgname},%{ruby_sitelibdir}}
+
 cp -a lib/* $RPM_BUILD_ROOT%{ruby_sitelibdir}
 cp -a bin builtin configs dispatches doc environments helpers html fresh_rakefile README $RPM_BUILD_ROOT%{_datadir}/%{pkgname}
 install -p bin/rails $RPM_BUILD_ROOT%{_bindir}/rails
+
 cat <<'EOF' > $RPM_BUILD_ROOT%{ruby_sitelibdir}/railties_path.rb
 RAILTIES_PATH = "%{_datadir}/%{pkgname}"
 EOF

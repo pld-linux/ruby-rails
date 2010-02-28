@@ -1,16 +1,17 @@
- bin/rails                                          |    9 ++--
- environments/boot.rb                               |   55 +-------------------
- lib/commands/servers/mongrel.rb                    |   11 +++-
- lib/initializer.rb                                 |    3 +-
- lib/rails/gem_dependency.rb                        |    2 +-
- lib/rails_generator.rb                             |    3 -
- .../generators/applications/app/app_generator.rb   |    3 +-
- lib/rubyprof_ext.rb                                |   35 ------------
+ bin/rails                                          |    9 +-
+ environments/boot.rb                               |   55 +--------
+ lib/initializer.rb                                 |   20 +++-
+ lib/rails/backtrace_cleaner.rb                     |    2 +-
+ lib/rails/gem_builder.rb                           |    7 +-
+ lib/rails/vendor_gem_source_index.rb               |    5 +-
+ lib/rails_generator.rb                             |   10 +--
+ .../generators/applications/app/app_generator.rb   |    6 +-
+ lib/rubyprof_ext.rb                                |   35 ------
  lib/tasks/framework.rake                           |    2 +-
- 9 files changed, 20 insertions(+), 103 deletions(-)
+ 20 files changed, 57 insertions(+), 280 deletions(-)
 
 diff --git a/bin/rails b/bin/rails
-index ae0cc8a..a229a73 100755
+index 6a0c675..9cd410a 100755
 --- a/bin/rails
 +++ b/bin/rails
 @@ -1,7 +1,8 @@
@@ -24,8 +25,8 @@ index ae0cc8a..a229a73 100755
  if %w(--version -v).include? ARGV.first
    puts "Rails #{Rails::VERSION::STRING}"
    exit(0)
-@@ -10,10 +11,10 @@ end
- freeze   = ARGV.any? { |option| %w(--freeze -f).include?(option) }
+@@ -11,10 +12,10 @@ freeze   = ARGV.any? { |option| %w(--freeze -f).include?(option) }
+ 
  app_path = ARGV.first
  
 -require File.dirname(__FILE__) + '/../lib/rails_generator'
@@ -39,7 +40,7 @@ index ae0cc8a..a229a73 100755
 \ No newline at end of file
 +Dir.chdir(app_path) { `rake rails:freeze:gems`; puts "froze" } if freeze
 diff --git a/environments/boot.rb b/environments/boot.rb
-index 6a30b54..4bd5b4e 100644
+index dd5e3b6..c39a225 100644
 --- a/environments/boot.rb
 +++ b/environments/boot.rb
 @@ -17,7 +17,7 @@ module Rails
@@ -51,7 +52,7 @@ index 6a30b54..4bd5b4e 100644
      end
  
      def vendor_rails?
-@@ -47,61 +47,10 @@
+@@ -48,61 +48,10 @@ module Rails
      end
    end
  
@@ -76,7 +77,7 @@ index 6a30b54..4bd5b4e 100644
 -
 -    class << self
 -      def rubygems_version
--        Gem::RubyGemsVersion if defined? Gem::RubyGemsVersion
+-        Gem::RubyGemsVersion rescue nil
 -      end
 -
 -      def gem_version
@@ -90,15 +91,15 @@ index 6a30b54..4bd5b4e 100644
 -      end
 -
 -      def load_rubygems
+-        min_version = '1.3.2'
 -        require 'rubygems'
--
--        unless rubygems_version >= '0.9.4'
--          $stderr.puts %(Rails requires RubyGems >= 0.9.4 (you have #{rubygems_version}). Please `gem update --system` and try again.)
+-        unless rubygems_version >= min_version
+-          $stderr.puts %Q(Rails requires RubyGems >= #{min_version} (you have #{rubygems_version}). Please `gem update --system` and try again.)
 -          exit 1
 -        end
 -
 -      rescue LoadError
--        $stderr.puts %(Rails requires RubyGems >= 0.9.4. Please install RubyGems and try again: http://rubygems.rubyforge.org)
+-        $stderr.puts %Q(Rails requires RubyGems >= #{min_version}. Please install RubyGems and try again: http://rubygems.rubyforge.org)
 -        exit 1
 -      end
 -
@@ -114,42 +115,19 @@ index 6a30b54..4bd5b4e 100644
    end
  end
  
-diff --git a/lib/commands/servers/mongrel.rb b/lib/commands/servers/mongrel.rb
-index 7bb110f..bc562d2 100644
---- a/lib/commands/servers/mongrel.rb
-+++ b/lib/commands/servers/mongrel.rb
-@@ -43,7 +43,8 @@ parameters = [
- ]
- 
- if OPTIONS[:detach]
--  `mongrel_rails #{parameters.join(" ")} -d`
-+  parameters << "-d"
-+  exec "mongrel_rails", *parameters
- else
-   ENV["RAILS_ENV"] = OPTIONS[:environment]
-   RAILS_ENV.replace(OPTIONS[:environment]) if defined?(RAILS_ENV)
-@@ -61,9 +62,13 @@ else
- 
-   begin
-     silence_warnings { ARGV = parameters }
--    load("mongrel_rails")
-+    begin
-+      load("mongrel_rails")
-+    rescue LoadError
-+      load(File.join(Config::CONFIG["bindir"], "mongrel_rails"))
-+    end
-   ensure
-     tail_thread.kill if tail_thread
-     puts 'Exiting'
-   end
--end
-\ No newline at end of file
-+end
 diff --git a/lib/initializer.rb b/lib/initializer.rb
-index b77dc16..acfec78 100644
+index 196bd93..ac973a6 100644
 --- a/lib/initializer.rb
 +++ b/lib/initializer.rb
-@@ -2,7 +2,6 @@ require 'logger'
+@@ -1,13 +1,19 @@
++begin
++  # Sooner or later rubygems will be loaded.  Better do it early.
++  require 'rubygems'
++  CAN_HAS_GEMS = true
++rescue LoadError
++  CAN_HAS_GEMS = false
++end
+ require 'logger'
  require 'set'
  require 'pathname'
  
@@ -157,7 +135,40 @@ index b77dc16..acfec78 100644
  require 'railties_path'
  require 'rails/version'
  require 'rails/plugin/locator'
-@@ -852,7 +851,7 @@ Run `rake gems:install` to install the missing gems.
+ require 'rails/plugin/loader'
+-require 'rails/gem_dependency'
++require 'rails/gem_dependency' if CAN_HAS_GEMS
+ require 'rails/rack'
+ 
+ 
+@@ -215,6 +221,7 @@ module Rails
+     # Active Resource. This allows Gem plugins to depend on Rails even when
+     # the Gem version of Rails shouldn't be loaded.
+     def install_gem_spec_stubs
++      return unless CAN_HAS_GEMS
+       unless Rails.respond_to?(:vendor_rails?)
+         abort %{Your config/boot.rb is outdated: Run "rake rails:update".}
+       end
+@@ -295,6 +302,7 @@ module Rails
+     end
+ 
+     def add_gem_load_paths
++      return unless CAN_HAS_GEMS
+       Rails::GemDependency.add_frozen_gem_path
+       unless @configuration.gems.empty?
+         require "rubygems"
+@@ -328,6 +336,10 @@ Run `rake gems:build` to build the unbuilt gems.
+     end
+ 
+     def check_gem_dependencies
++      unless CAN_HAS_GEMS
++        @gems_dependencies_loaded = true
++        return
++      end
+       unloaded_gems = @configuration.gems.reject { |g| g.loaded? }
+       if unloaded_gems.size > 0
+         @gems_dependencies_loaded = false
+@@ -1052,12 +1064,12 @@ Run `rake gems:install` to install the missing gems.
        end
  
        def default_plugin_paths
@@ -166,41 +177,106 @@ index b77dc16..acfec78 100644
        end
  
        def default_plugin_locators
+         locators = []
+-        locators << Plugin::GemLocator if defined? Gem
++        locators << Plugin::GemLocator if CAN_HAS_GEMS
+         locators << Plugin::FileSystemLocator
+       end
+ 
+diff --git a/lib/rails/backtrace_cleaner.rb b/lib/rails/backtrace_cleaner.rb
+index 923ed8b..41c15fe 100644
+--- a/lib/rails/backtrace_cleaner.rb
++++ b/lib/rails/backtrace_cleaner.rb
+@@ -19,7 +19,7 @@ module Rails
+       add_filter   { |line| line.sub(ERB_METHOD_SIG, '') }
+       add_filter   { |line| line.sub('./', '/') } # for tests
+ 
+-      add_gem_filters
++      add_gem_filters if defined? Gem
+ 
+       add_silencer { |line| ALL_NOISE.any? { |dir| line.include?(dir) } }
+       add_silencer { |line| RAILS_GEMS.any? { |gem| line =~ /^#{gem} / } }
+diff --git a/lib/rails/gem_builder.rb b/lib/rails/gem_builder.rb
+index 79c61cc..801ebad 100644
+--- a/lib/rails/gem_builder.rb
++++ b/lib/rails/gem_builder.rb
+@@ -1,5 +1,8 @@
+-require 'rubygems'
+-require 'rubygems/installer'
++begin
++  require 'rubygems'
++  require 'rubygems/installer'
++rescue LoadError
++end
+ 
+ module Rails
+   
+diff --git a/lib/rails/vendor_gem_source_index.rb b/lib/rails/vendor_gem_source_index.rb
+index 5b7721f..5d9f66b 100644
+--- a/lib/rails/vendor_gem_source_index.rb
++++ b/lib/rails/vendor_gem_source_index.rb
+@@ -1,4 +1,7 @@
+-require 'rubygems'
++begin
++  require 'rubygems'
++rescue LoadError
++end
+ require 'yaml'
+ 
+ module Rails
 diff --git a/lib/rails_generator.rb b/lib/rails_generator.rb
-index 9f0ffc1..5a55084 100644
+index 9f0ffc1..2fbcfa6 100644
 --- a/lib/rails_generator.rb
 +++ b/lib/rails_generator.rb
-@@ -21,9 +21,6 @@
+@@ -21,15 +21,7 @@
  # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  #++
  
 -$:.unshift(File.dirname(__FILE__))
 -$:.unshift(File.dirname(__FILE__) + "/../../activesupport/lib")
 -
- begin
-   require 'active_support'  
- rescue LoadError
+-begin
+-  require 'active_support'  
+-rescue LoadError
+-  require 'rubygems'
+-  gem 'activesupport'
+-end
++require 'active_support'  
+ 
+ require 'rails_generator/base'
+ require 'rails_generator/lookup'
 diff --git a/lib/rails_generator/generators/applications/app/app_generator.rb b/lib/rails_generator/generators/applications/app/app_generator.rb
-index 2f2dd82..27911ed 100644
+index c8c2239..14beeb8 100644
 --- a/lib/rails_generator/generators/applications/app/app_generator.rb
 +++ b/lib/rails_generator/generators/applications/app/app_generator.rb
 @@ -1,6 +1,7 @@
  require 'rbconfig'
+ require File.dirname(__FILE__) + '/template_runner'
  require 'digest/md5' 
- require 'rails_generator/secret_key_generator'
 +require 'railties_path'
+ require 'active_support/secure_random'
  
  class AppGenerator < Rails::Generator::Base
-   DEFAULT_SHEBANG = File.join(Config::CONFIG['bindir'],
-@@ -11,7 +12,7 @@ class AppGenerator < Rails::Generator::Base
+@@ -9,11 +10,10 @@ class AppGenerator < Rails::Generator::Base
+   DATABASES        = %w( mysql oracle postgresql sqlite2 sqlite3 frontbase ibm_db )
+   DEFAULT_DATABASE = 'sqlite3'
  
-   default_options   :db => (ENV["RAILS_DEFAULT_DATABASE"] || DEFAULT_DATABASE),
-     :shebang => DEFAULT_SHEBANG, :freeze => false
 -  mandatory_options :source => "#{File.dirname(__FILE__)}/../../../../.."
 +  mandatory_options :source => RAILTIES_PATH
+   default_options   :db => (ENV["RAILS_DEFAULT_DATABASE"] || DEFAULT_DATABASE),
+     :shebang => DEFAULT_SHEBANG, :with_dispatchers => false, :freeze => false
  
+-
    def initialize(runtime_args, runtime_options = {})
      super
+ 
+@@ -260,4 +260,4 @@ class AppGenerator < Rails::Generator::Base
+         "/opt/lampp/var/mysql/mysql.sock"         # xampp for linux
+       ].find { |f| File.exist?(f) } unless RUBY_PLATFORM =~ /(:?mswin|mingw)/
+     end
+-end
+\ No newline at end of file
++end
 diff --git a/lib/rubyprof_ext.rb b/lib/rubyprof_ext.rb
 deleted file mode 100644
 index f6e9035..0000000
@@ -243,10 +319,10 @@ index f6e9035..0000000
 -  end
 -end
 diff --git a/lib/tasks/framework.rake b/lib/tasks/framework.rake
-index 71aea09..c4d444e 100644
+index 191c936..fc3108c 100644
 --- a/lib/tasks/framework.rake
 +++ b/lib/tasks/framework.rake
-@@ -80,7 +80,7 @@ namespace :rails do
+@@ -90,7 +90,7 @@ namespace :rails do
      desc "Add new scripts to the application script/ directory"
      task :scripts do
        local_base = "script"
