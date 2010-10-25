@@ -10,14 +10,16 @@
 #
 %bcond_without  doc # skip (time-consuming) docs generating; intended for speed up test builds
 
+%define gitrev gbac6ba9
 %define pkgname rails
+
 Summary:	Web-application framework with template engine, control-flow layer, and ORM
 Name:		ruby-%{pkgname}
 Version:	3.0.1
 Release:	0.1
 License:	MIT
 Group:		Development/Languages
-Source0:	http://download.github.com/rails-%{pkgname}-v%{version}-0-gbac6ba9.tar.gz
+Source0:	http://download.github.com/rails-%{pkgname}-v%{version}-0-%{gitrev}.tar.gz
 # Source0-md5:	0e83bc92ac8d1f8c64b0f6eb70772511
 URL:		http://www.rubyonrails.org/
 BuildRequires:	rpmbuild(macros) >= 1.277
@@ -61,12 +63,12 @@ Requires:	ruby-rails = %{version}-%{release}
 #Provides:	ruby-activerecord
 #Provides:	ruby-activeresource
 #Provides:	ruby-activesupport
-Obsoletes:	ruby-actioncontroller
-Obsoletes:	ruby-actiondispatch
+#Obsoletes:	ruby-actioncontroller
+#Obsoletes:	ruby-actiondispatch
 Obsoletes:	ruby-actionmailer
 Obsoletes:	ruby-actionpack
-Obsoletes:	ruby-actionview
-Obsoletes:	ruby-activemodel
+#Obsoletes:	ruby-actionview
+#Obsoletes:	ruby-activemodel
 Obsoletes:	ruby-activerecord
 Obsoletes:	ruby-activeresource
 Obsoletes:	ruby-activesupport
