@@ -5,6 +5,8 @@
 #   together under railtiles? (action_view, action_mailer, etc...)
 #   Or just set provides?
 # - Review deletion of some docs, fix brute force * approach to packaging docs
+# - Fix Source0, can be fetched with wget from:
+#   http://github.com/rails/rails/tarball/v3.0.1
 #
 %bcond_without  doc # skip (time-consuming) docs generating; intended for speed up test builds
 
