@@ -1,37 +1,52 @@
-# TODO:
-# - Very rough upgrade to 3.x, need to review sub package architecture in light
-#   of upstream api re-write.
-# - Package various ruby packages as separate subpackages istead of lumping files
-#   together under railtiles? (action_view, action_mailer, etc...)
-#   Or just set provides?
-# - Review deletion of some docs, fix brute force * approach to packaging docs
-# - Fix Source0, can be fetched with wget from:
-#   http://github.com/rails/rails/tarball/v3.0.1
-#
 %bcond_without  doc # skip (time-consuming) docs generating; intended for speed up test builds
 
-%define gitrev gbac6ba9
-%define pkgname rails
-
+%define		pkgname		rails
 Summary:	Web-application framework with template engine, control-flow layer, and ORM
 Name:		ruby-%{pkgname}
-Version:	3.0.1
-Release:	0.1
+Version:	3.2.19
+Release:	0.2
 License:	MIT
 Group:		Development/Languages
-Source0:	http://download.github.com/rails-%{pkgname}-v%{version}-0-%{gitrev}.tar.gz
-# Source0-md5:	0e83bc92ac8d1f8c64b0f6eb70772511
+Source0:	http://rubygems.org/downloads/railties-%{version}.gem
+# Source0-md5:	541a47ca3d89fb1103dc2a54b41f86ff
+Source1:	http://rubygems.org/downloads/rails-%{version}.gem
+# Source1-md5:	3545800bc87637a368eb9614b5309a4e
 URL:		http://www.rubyonrails.org/
 BuildRequires:	rpmbuild(macros) >= 1.277
 BuildRequires:	ruby-bundler >= 1.0.3
 BuildRequires:	ruby-modules >= 1.9.2
 Requires:	ruby-modules >= 1.9.2
 Requires:	ruby-railties = %{version}-%{release}
+Requires:	ruby-actionmailer = %{version}
+Requires:	ruby-actionpack = %{version}
+Requires:	ruby-activerecord = %{version}
+Requires:	ruby-activeresource = %{version}
+Requires:	ruby-activesupport = %{version}
+Requires:	ruby-multi_json >= 1.0
+Requires:	ruby-builder >= 3.0.0
+Requires:	ruby-i18n >= 0.6.4
+Requires:	ruby-rack >= 1.4.5
+Requires:	ruby-rack-test >= 0.6.1
+Conflicts:	ruby-rack >= 1.5
+Conflicts:	ruby-rack-test >= 0.7
+Conflicts:	ruby-multi_json >= 2.0
+Conflicts:	ruby-i18n >= 1.0
+Conflicts:	ruby-builder >= 4.0
 Obsoletes:	railties
 Obsoletes:	ruby-Rails
 #BuildArch:	noarch
 %{?ruby_mod_ver_requires_eq}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+#journey ~> 1.0.4
+#rack-cache (~> 1.2)
+#sprockets (~> 2.2.1)
+#erubis (~> 2.7.0)
+#arel (~> 3.0.2)
+#tzinfo (~> 0.3.29)
+#mail (~> 2.5.4)
+#treetop (~> 1.4.8)
+#polyglot (>= 0.3.1)
 
 # nothing to be placed there. we're not noarc only because of ruby packaging
 %define		_enable_debug_packages	0
@@ -53,25 +68,13 @@ This package contains development tools.
 Summary:	Gluing the Engine to the Rails
 Group:		Development/Languages
 Requires:	ruby-rails = %{version}-%{release}
-#Provides:	ruby-abstractcontroller
-#Provides:	ruby-actioncontroller
-#Provides:	ruby-actiondispatch
-#Provides:	ruby-actionmailer
-#Provides:	ruby-actionpack
-#Provides:	ruby-actionview
-#Provides:	ruby-activemodel
-#Provides:	ruby-activerecord
-#Provides:	ruby-activeresource
-#Provides:	ruby-activesupport
-#Obsoletes:	ruby-actioncontroller
-#Obsoletes:	ruby-actiondispatch
-Obsoletes:	ruby-actionmailer
-Obsoletes:	ruby-actionpack
-#Obsoletes:	ruby-actionview
-#Obsoletes:	ruby-activemodel
-Obsoletes:	ruby-activerecord
-Obsoletes:	ruby-activeresource
-Obsoletes:	ruby-activesupport
+Requires:	ruby-coffee-rails >= 3.2.1
+Requires:	ruby-jquery-rails
+Requires:	ruby-sass-rails >= 3.2.3
+Requires:	ruby-sqlite3
+Requires:	uglifier >= 1.0.3
+Conflicts:	ruby-coffee-rails >= 3.3
+Conflicts:	sass-rails >= 3.3
 
 %description -n ruby-railties
 Rails is a framework for building web-application using CGI, FCGI,
@@ -105,36 +108,55 @@ ri documentation for %{pkgname}.
 Dokumentacji w formacie ri dla %{pkgname}.
 
 %prep
-%setup -q -n rails-rails-98a44e1
-find -newer README.rdoc  -o -print | xargs touch --reference %{SOURCE0}
+%setup -q -n %{pkgname}-%{version}
+install -d railgem
+%{__tar} xf %{SOURCE1} -C railgem/
+
+find -newer README.rdoc -o -print | xargs touch --reference %{SOURCE0}
 
 %{__grep} -rl '/usr/bin/env' . | xargs %{__sed} -i -e '
-	s,%{_bindir}/env ruby,%{__ruby},
-s,%{_bindir}/env spawn-fcgi,%{_sbindir}/spawn-fcgi,
-	s,%{_bindir}/env \(#{File.expand_path(\$0)}\),\1,
+	s,/usr/bin/env ruby,%{__ruby},
+	s,/usr/bin/env spawn-fcgi,/usr/sbin/spawn-fcgi,
+	s,/usr/bin/env \(#{File.expand_path(\$0)}\),\1,
 '
 
+# cleanup backups after patching
+find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
+
 %build
+# write .gemspec
+cd railgem
+%__gem_helper spec
+cd ..
+%__gem_helper spec
+
+%{__sed} -i -e 's/\(.*s.add_dependency.*rdoc.*\)~>\(.*3.4.*\)/\1>\2/g' \
+	railties*.gemspec
+
 %if %{with doc}
-rdoc --ri --op ri
-rdoc --op rdoc
-# TODO: why are we selectivly deleting api documentation?
-rm -r ri/{\<,ActiveSupport,CGI,CodeStatistics,Object,Plugin,RecursiveHTTPFetcher}
+rdoc --ri --op ri lib
+rdoc --op rdoc lib
+rm -r ri/{ActiveSupport,Object,Plugin,RecursiveHTTPFetcher}
 rm ri/created.rid
 %endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{pkgname}} \
-	$RPM_BUILD_ROOT{%{ruby_rubylibdir},%{ruby_ridir},%{ruby_rdocdir}}
+	$RPM_BUILD_ROOT{%{ruby_rubylibdir},%{ruby_ridir},%{ruby_rdocdir}} \
+	$RPM_BUILD_ROOT%{ruby_specdir}
 
-cp -a {actionmailer,actionpack,activemodel,activerecord,activeresource,activesupport,railties}/lib/* $RPM_BUILD_ROOT%{ruby_rubylibdir}
+cp -a lib/* $RPM_BUILD_ROOT%{ruby_rubylibdir}
 %if %{with doc}
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
 cp -a rdoc $RPM_BUILD_ROOT%{ruby_rdocdir}/%{name}-%{version}
 %endif
+#-cp -a bin builtin configs dispatches doc environments helpers html fresh_rakefile README $RPM_BUILD_ROOT%{_datadir}/%{pkgname}
 cp -a bin $RPM_BUILD_ROOT%{_datadir}/%{pkgname}
 install -p bin/rails $RPM_BUILD_ROOT%{_bindir}/rails
+
+cp -p railties-%{version}.gemspec $RPM_BUILD_ROOT%{ruby_specdir}
+cp -p railgem/%{pkgname}-%{version}.gemspec $RPM_BUILD_ROOT%{ruby_specdir}
 
 cat <<'EOF' > $RPM_BUILD_ROOT%{ruby_rubylibdir}/railties_path.rb
 RAILTIES_PATH = "%{_datadir}/%{pkgname}"
@@ -147,8 +169,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/rails
 %{_datadir}/%{pkgname}
-%{ruby_rubylibdir}/%{pkgname}
-%{ruby_rubylibdir}/%{pkgname}.rb
+%{ruby_specdir}/%{pkgname}-%{version}.gemspec
 
 %if %{with doc}
 %files rdoc
@@ -157,29 +178,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files ri
 %defattr(644,root,root,755)
-%{ruby_ridir}/*
+%{ruby_ridir}/Rails*
 %endif
 
 %files -n ruby-railties
 %defattr(644,root,root,755)
-%{ruby_rubylibdir}/railties_path.rb
-%{ruby_rubylibdir}/abstract_controller
-%{ruby_rubylibdir}/abstract_controller.rb
-%{ruby_rubylibdir}/action_controller
-%{ruby_rubylibdir}/action_controller.rb
-%{ruby_rubylibdir}/action_dispatch
-%{ruby_rubylibdir}/action_dispatch.rb
-%{ruby_rubylibdir}/action_mailer
-%{ruby_rubylibdir}/action_mailer.rb
-%{ruby_rubylibdir}/action_pack
-%{ruby_rubylibdir}/action_pack.rb
-%{ruby_rubylibdir}/action_view
-%{ruby_rubylibdir}/action_view.rb
-%{ruby_rubylibdir}/active_model
-%{ruby_rubylibdir}/active_model.rb
-%{ruby_rubylibdir}/active_record
-%{ruby_rubylibdir}/active_record.rb
-%{ruby_rubylibdir}/active_resource
-%{ruby_rubylibdir}/active_resource.rb
-%{ruby_rubylibdir}/active_support
-%{ruby_rubylibdir}/active_support.rb
+%{ruby_rubylibdir}/*
+%{ruby_specdir}/railties-%{version}.gemspec
