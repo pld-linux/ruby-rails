@@ -4,7 +4,7 @@
 Summary:	Web-application framework with template engine, control-flow layer, and ORM
 Name:		ruby-%{pkgname}
 Version:	3.2.19
-Release:	0.2
+Release:	0.3
 License:	MIT
 Group:		Development/Languages
 Source0:	http://rubygems.org/downloads/railties-%{version}.gem
@@ -14,6 +14,7 @@ Source1:	http://rubygems.org/downloads/rails-%{version}.gem
 URL:		http://www.rubyonrails.org/
 Patch0:		system-bundle.patch
 Patch1:		disable-sprockets.patch
+Patch2:		bogus-deps.patch
 BuildRequires:	rpmbuild(macros) >= 1.277
 BuildRequires:	ruby-bundler >= 1.0.3
 BuildRequires:	ruby-modules >= 1.9.2
@@ -124,6 +125,13 @@ install -d railgem
 %patch0 -p1
 %patch1 -p1
 
+# write .gemspec
+cd railgem
+%__gem_helper spec
+cd ..
+%__gem_helper spec
+%patch2 -p1
+
 find -newer README.rdoc -o -print | xargs touch --reference %{SOURCE0}
 
 %{__grep} -rl '/usr/bin/env' . | xargs %{__sed} -i -e '
@@ -136,12 +144,6 @@ find -newer README.rdoc -o -print | xargs touch --reference %{SOURCE0}
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
 
 %build
-# write .gemspec
-cd railgem
-%__gem_helper spec
-cd ..
-%__gem_helper spec
-
 %{__sed} -i -e 's/\(.*s.add_dependency.*rdoc.*\)~>\(.*3.4.*\)/\1>\2/g' \
 	railties*.gemspec
 
