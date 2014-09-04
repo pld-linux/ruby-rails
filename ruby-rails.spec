@@ -4,7 +4,7 @@
 Summary:	Web-application framework with template engine, control-flow layer, and ORM
 Name:		ruby-%{pkgname}
 Version:	3.2.19
-Release:	0.3
+Release:	1
 License:	MIT
 Group:		Development/Languages
 Source0:	http://rubygems.org/downloads/railties-%{version}.gem
