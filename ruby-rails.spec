@@ -12,41 +12,48 @@ Source0:	http://rubygems.org/downloads/railties-%{version}.gem
 Source1:	http://rubygems.org/downloads/rails-%{version}.gem
 # Source1-md5:	3545800bc87637a368eb9614b5309a4e
 URL:		http://www.rubyonrails.org/
+Patch0:		system-bundle.patch
+Patch1:		disable-sprockets.patch
 BuildRequires:	rpmbuild(macros) >= 1.277
 BuildRequires:	ruby-bundler >= 1.0.3
 BuildRequires:	ruby-modules >= 1.9.2
-Requires:	ruby-modules >= 1.9.2
-Requires:	ruby-railties = %{version}-%{release}
 Requires:	ruby-actionmailer = %{version}
 Requires:	ruby-actionpack = %{version}
 Requires:	ruby-activerecord = %{version}
 Requires:	ruby-activeresource = %{version}
 Requires:	ruby-activesupport = %{version}
-Requires:	ruby-multi_json >= 1.0
+Requires:	ruby-arel >= 3.0.2
 Requires:	ruby-builder >= 3.0.0
+Requires:	ruby-erubis >= 2.7.0
 Requires:	ruby-i18n >= 0.6.4
+Requires:	ruby-journey >= 1.0.4
+Requires:	ruby-mail >= 2.5.4
+Requires:	ruby-modules >= 1.9.2
+Requires:	ruby-multi_json >= 1.0
+Requires:	ruby-polyglot >= 0.3.1
 Requires:	ruby-rack >= 1.4.5
+Requires:	ruby-rack-cache >= 1.2
 Requires:	ruby-rack-test >= 0.6.1
-Conflicts:	ruby-rack >= 1.5
-Conflicts:	ruby-rack-test >= 0.7
-Conflicts:	ruby-multi_json >= 2.0
-Conflicts:	ruby-i18n >= 1.0
+Requires:	ruby-railties = %{version}-%{release}
+Requires:	ruby-treetop >= 1.4.8
+Requires:	ruby-tzinfo >= 0.3.29
+Conflicts:	ruby-arel >= 3.1
 Conflicts:	ruby-builder >= 4.0
+Conflicts:	ruby-erubis >= 2.8.0
+Conflicts:	ruby-i18n >= 1.0
+Conflicts:	ruby-journey >= 1.1
+Conflicts:	ruby-mail >= 2.6
+Conflicts:	ruby-multi_json >= 2.0
+Conflicts:	ruby-rack >= 1.5
+Conflicts:	ruby-rack-cache >= 2.0
+Conflicts:	ruby-rack-test >= 0.7
+Conflicts:	ruby-treetop >= 1.5
+Conflicts:	ruby-tzinfo >= 0.4
 Obsoletes:	railties
 Obsoletes:	ruby-Rails
-#BuildArch:	noarch
+BuildArch:	noarch
 %{?ruby_mod_ver_requires_eq}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-#journey ~> 1.0.4
-#rack-cache (~> 1.2)
-#sprockets (~> 2.2.1)
-#erubis (~> 2.7.0)
-#arel (~> 3.0.2)
-#tzinfo (~> 0.3.29)
-#mail (~> 2.5.4)
-#treetop (~> 1.4.8)
-#polyglot (>= 0.3.1)
 
 # nothing to be placed there. we're not noarc only because of ruby packaging
 %define		_enable_debug_packages	0
@@ -72,7 +79,9 @@ Requires:	ruby-coffee-rails >= 3.2.1
 Requires:	ruby-jquery-rails
 Requires:	ruby-sass-rails >= 3.2.3
 Requires:	ruby-sqlite3
-Requires:	uglifier >= 1.0.3
+#Suggests:	ruby-uglifier >= 1.0.3
+#Suggests:	ruby-sprockets >= 2.2.1
+#Conflicts:	ruby-sprockets >= 2.3
 Conflicts:	ruby-coffee-rails >= 3.3
 Conflicts:	sass-rails >= 3.3
 
@@ -111,6 +120,9 @@ Dokumentacji w formacie ri dla %{pkgname}.
 %setup -q -n %{pkgname}-%{version}
 install -d railgem
 %{__tar} xf %{SOURCE1} -C railgem/
+
+%patch0 -p1
+%patch1 -p1
 
 find -newer README.rdoc -o -print | xargs touch --reference %{SOURCE0}
 

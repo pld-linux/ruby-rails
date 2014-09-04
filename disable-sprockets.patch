@@ -1,0 +1,11 @@
+--- rails-3.2.19/lib/rails/generators/app_base.rb~	2014-09-04 01:19:44.000000000 +0200
++++ rails-3.2.19/lib/rails/generators/app_base.rb	2014-09-04 20:15:51.501465339 +0200
+@@ -37,7 +37,7 @@
+         class_option :skip_active_record, :type => :boolean, :aliases => "-O", :default => false,
+                                           :desc => "Skip Active Record files"
+ 
+-        class_option :skip_sprockets,     :type => :boolean, :aliases => "-S", :default => false,
++        class_option :skip_sprockets,     :type => :boolean, :aliases => "-S", :default => true,
+                                           :desc => "Skip Sprockets files"
+ 
+         class_option :database,           :type => :string, :aliases => "-d", :default => "sqlite3",
