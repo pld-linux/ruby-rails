@@ -4,7 +4,7 @@
 Summary:	Web-application framework with template engine, control-flow layer, and ORM
 Name:		ruby-%{pkgname}
 Version:	3.2.19
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Languages
 Source0:	http://rubygems.org/downloads/railties-%{version}.gem
@@ -76,14 +76,14 @@ This package contains development tools.
 Summary:	Gluing the Engine to the Rails
 Group:		Development/Languages
 Requires:	ruby-rails = %{version}-%{release}
-Requires:	ruby-coffee-rails >= 3.2.1
+#Requires:	ruby-coffee-rails >= 3.2.1
 Requires:	ruby-jquery-rails
 Requires:	ruby-sass-rails >= 3.2.3
 Requires:	ruby-sqlite3
 #Suggests:	ruby-uglifier >= 1.0.3
 #Suggests:	ruby-sprockets >= 2.2.1
 #Conflicts:	ruby-sprockets >= 2.3
-Conflicts:	ruby-coffee-rails >= 3.3
+#Conflicts:	ruby-coffee-rails >= 3.3
 Conflicts:	sass-rails >= 3.3
 
 %description -n ruby-railties
