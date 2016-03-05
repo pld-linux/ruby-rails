@@ -1,10 +1,12 @@
-%bcond_without  doc # skip (time-consuming) docs generating; intended for speed up test builds
-
+#
+# Conditional build:
+%bcond_without	doc	# skip (time-consuming) docs generating; intended for speed up test builds
+#
 %define		pkgname		rails
 Summary:	Web-application framework with template engine, control-flow layer, and ORM
 Name:		ruby-%{pkgname}
 Version:	3.2.19
-Release:	2
+Release:	3
 License:	MIT
 Group:		Development/Languages
 Source0:	http://rubygems.org/downloads/railties-%{version}.gem
@@ -15,7 +17,7 @@ URL:		http://www.rubyonrails.org/
 Patch0:		system-bundle.patch
 Patch1:		disable-sprockets.patch
 Patch2:		bogus-deps.patch
-BuildRequires:	rpmbuild(macros) >= 1.277
+BuildRequires:	rpmbuild(macros) >= 1.665
 BuildRequires:	ruby-bundler >= 1.0.3
 BuildRequires:	ruby-modules >= 1.9.2
 Requires:	ruby-actionmailer = %{version}
@@ -157,10 +159,10 @@ rm ri/created.rid
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{pkgname}} \
-	$RPM_BUILD_ROOT{%{ruby_rubylibdir},%{ruby_ridir},%{ruby_rdocdir}} \
+	$RPM_BUILD_ROOT{%{ruby_vendorlibdir},%{ruby_ridir},%{ruby_rdocdir}} \
 	$RPM_BUILD_ROOT%{ruby_specdir}
 
-cp -a lib/* $RPM_BUILD_ROOT%{ruby_rubylibdir}
+cp -a lib/* $RPM_BUILD_ROOT%{ruby_vendorlibdir}
 %if %{with doc}
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
 cp -a rdoc $RPM_BUILD_ROOT%{ruby_rdocdir}/%{name}-%{version}
@@ -172,7 +174,7 @@ install -p bin/rails $RPM_BUILD_ROOT%{_bindir}/rails
 cp -p railties-%{version}.gemspec $RPM_BUILD_ROOT%{ruby_specdir}
 cp -p railgem/%{pkgname}-%{version}.gemspec $RPM_BUILD_ROOT%{ruby_specdir}
 
-cat <<'EOF' > $RPM_BUILD_ROOT%{ruby_rubylibdir}/railties_path.rb
+cat <<'EOF' > $RPM_BUILD_ROOT%{ruby_vendorlibdir}/railties_path.rb
 RAILTIES_PATH = "%{_datadir}/%{pkgname}"
 EOF
 
@@ -197,5 +199,5 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n ruby-railties
 %defattr(644,root,root,755)
-%{ruby_rubylibdir}/*
+%{ruby_vendorlibdir}/*
 %{ruby_specdir}/railties-%{version}.gemspec
